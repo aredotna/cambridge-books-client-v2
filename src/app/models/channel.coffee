@@ -9,6 +9,7 @@ class exports.Channel extends Backbone.Collection
 
 	initialize: (items, options)->
 		@options = options
+		unless @options.load == false @loadBlocks()
 
 	loadBlocks: (depth=0) ->
 		@fetch
@@ -20,5 +21,7 @@ class exports.Channel extends Backbone.Collection
 					@each (block)->
 						if block.get('block_type') is "Channel" and block.get('published')
 							console.log(block.get('slug'))
-							@channel = new Channel(null, slug:block.get('slug'))
+							@channel = new Channel null, 
+								slug:block.get('slug')
+								load: false
 							@channel.loadBlocks(depth-1)
