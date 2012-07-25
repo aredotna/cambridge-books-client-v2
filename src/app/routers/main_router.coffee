@@ -8,7 +8,9 @@ class exports.MainRouter extends Backbone.Router
     "/:channelSlug": "channel"
 
   index: ->
-  	channel = new Channel null, slug:app.rootChannel
+  	channel = new Channel null, 
+      slug:app.rootChannel,
+      depth: 3
   	app.setView new ChannelView(model: channel)
 	    
   channel: (slug)->

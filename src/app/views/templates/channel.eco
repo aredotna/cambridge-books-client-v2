@@ -1,5 +1,9 @@
-<div id="channelView">
+<ul id="channelView">
 	<% for block in @blocks: %>
-		<%- block.title %>
+		<% if block.published: %>
+			<li class="block">
+				<%- block.title %>
+			</li>
+		<% end %>
 	<% end %>
-</div>
+</ul>

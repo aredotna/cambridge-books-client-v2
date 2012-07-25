@@ -213,12 +213,20 @@ b,c){var d;d=b&&b.hasOwnProperty("constructor")?b.constructor:function(){a.apply
 
     Channel.prototype.model = Block;
 
+    Channel.prototype.defaults = {
+      depth: 0,
+      autoload: true
+    };
+
     Channel.prototype.url = function() {
       return "http://arena-cedar.herokuapp.com/api/v1/channels/" + this.options.slug + ".json?callback=?";
     };
 
     Channel.prototype.initialize = function(items, options) {
-      return this.options = options;
+      this.options = _.extend(this.defaults, options);
+      if (this.options.autoload) {
+        return this.loadBlocks(this.options.depth);
+      }
     };
 
     Channel.prototype.loadBlocks = function(depth) {
@@ -234,11 +242,10 @@ b,c){var d;d=b&&b.hasOwnProperty("constructor")?b.constructor:function(){a.apply
           if (depth) {
             return _this.each(function(block) {
               if (block.get('block_type') === "Channel" && block.get('published')) {
-                console.log(block.get('slug'));
-                this.channel = new Channel(null, {
-                  slug: block.get('slug')
+                return this.channel = new Channel(null, {
+                  slug: block.get('slug'),
+                  depth: this.options.depth - 1
                 });
-                return this.channel.loadBlocks(depth - 1);
               }
             });
           }
@@ -276,7 +283,8 @@ b,c){var d;d=b&&b.hasOwnProperty("constructor")?b.constructor:function(){a.apply
     MainRouter.prototype.index = function() {
       var channel;
       channel = new Channel(null, {
-        slug: app.rootChannel
+        slug: app.rootChannel,
+        depth: 3
       });
       return app.setView(new ChannelView({
         model: channel
@@ -453,17 +461,21 @@ b,c){var d;d=b&&b.hasOwnProperty("constructor")?b.constructor:function(){a.apply
     (function() {
       var block, _i, _len, _ref;
     
-      __out.push('<div id="channelView">\n\t');
+      __out.push('<ul id="channelView">\n\t');
     
       _ref = this.blocks;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         block = _ref[_i];
         __out.push('\n\t\t');
-        __out.push(block.title);
+        if (block.published) {
+          __out.push('\n\t\t\t<li class="block">\n\t\t\t\t');
+          __out.push(block.title);
+          __out.push('\n\t\t\t</li>\n\t\t');
+        }
         __out.push('\n\t');
       }
     
-      __out.push('\n</div>');
+      __out.push('\n</ul>');
     
     }).call(this);
     
