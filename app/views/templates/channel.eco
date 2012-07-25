@@ -1,13 +1,12 @@
 <ul id="channelView">
 	<% for block in @blocks: %>
-		<li class="block <%- block.block_class %>">
+		<li id="<%- block.id %>" class="block <%- block.block_class %>">
 			<div class="wrapper">
 
 		        <% if block.block_type is 'Image': %>
 		          <!-- IMAGE -->
 		          <img src="<%= block.image.display %>" alt="<%= block.title %>" />
 		      
-
 		        <% else if block.block_type is 'Link': %>
 		          <!-- LINK -->
 		          <% if block.image.display: %>
@@ -18,17 +17,15 @@
 		            </p>
 		          <% end %>
 		      
-
 		        <% else if block.block_type is 'Text': %>
 		          <!-- TEXT -->
 		          <div class="content">
 		            <%- block.content %>
 		          </div>
-		      
 
 		        <% else if block.block_type is 'Channel' and block.published is true: %>
 		          <!-- CHANNEL -->
-		          <a href="#/<%= block.slug %>"><%- block.title %></a>
+		          <%- block.title %>
 		        <% end %>
 
 

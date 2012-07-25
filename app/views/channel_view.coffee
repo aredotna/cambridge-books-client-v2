@@ -9,9 +9,10 @@ class exports.ChannelView extends Backbone.View
 		@template = template
 		@model.bind "add", @render, @
 
-	showBlock: ->
+	showBlock: (e)->
+		block = @model.at(e.target.id)
+		false
 
 	render: ->
-		console.log(@model.toJSON())
 		@$el.html @template 
 			blocks: @model.toJSON()
