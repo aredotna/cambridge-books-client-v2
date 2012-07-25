@@ -354,13 +354,11 @@ b,c){var d;d=b&&b.hasOwnProperty("constructor")?b.constructor:function(){a.apply
   __obj.safe = __objSafe, __obj.escape = __escape;
   return __out.join('');
 }}, "views/channel_view": function(exports, require, module) {(function() {
-  var Block, template,
+  var template,
     __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
   template = require('views/templates/channel');
-
-  Block = require('models/block').Block;
 
   exports.ChannelView = (function(_super) {
 
@@ -466,15 +464,43 @@ b,c){var d;d=b&&b.hasOwnProperty("constructor")?b.constructor:function(){a.apply
       _ref = this.blocks;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         block = _ref[_i];
-        __out.push('\n\t\t');
-        if (block.published) {
-          __out.push('\n\t\t\t<li class="block">\n\t\t\t\t<div class="wrapper">\n\t\t\t\t\t<a href="#/');
-          __out.push(block.slug);
+        __out.push('\n\t\t<li class="block ');
+        __out.push(block.block_class);
+        __out.push('">\n\t\t\t<div class="wrapper">\n\n\t\t        ');
+        if (block.block_type === 'Image') {
+          __out.push('\n\t\t          <!-- IMAGE -->\n\t\t          <img src="');
+          __out.push(__sanitize(block.image.display));
+          __out.push('" alt="');
+          __out.push(__sanitize(block.title));
+          __out.push('" />\n\t\t      \n\n\t\t        ');
+        } else if (block.block_type === 'Link') {
+          __out.push('\n\t\t          <!-- LINK -->\n\t\t          ');
+          if (block.image.display) {
+            __out.push('\n\t\t              <img src="');
+            __out.push(__sanitize(block.image.display));
+            __out.push('" alt="');
+            __out.push(__sanitize(block.title));
+            __out.push('" />\n\t\t          ');
+          } else {
+            __out.push('\n\t\t            <p>\n\t\t              <a href="');
+            __out.push(__sanitize(block.link_url));
+            __out.push('" class="external url" target="_blank">');
+            __out.push(__sanitize(block.link_url));
+            __out.push('</a>\n\t\t            </p>\n\t\t          ');
+          }
+          __out.push('\n\t\t      \n\n\t\t        ');
+        } else if (block.block_type === 'Text') {
+          __out.push('\n\t\t          <!-- TEXT -->\n\t\t          <div class="content">\n\t\t            ');
+          __out.push(block.content);
+          __out.push('\n\t\t          </div>\n\t\t      \n\n\t\t        ');
+        } else if (block.block_type === 'Channel' && block.published === true) {
+          __out.push('\n\t\t          <!-- CHANNEL -->\n\t\t          <a href="#/');
+          __out.push(__sanitize(block.slug));
           __out.push('">');
           __out.push(block.title);
-          __out.push('</a>\n\t\t\t\t</div>\n\t\t\t</li>\n\t\t');
+          __out.push('</a>\n\t\t        ');
         }
-        __out.push('\n\t');
+        __out.push('\n\n\n\t\t\t</div>\n\t\t</li>\n\t');
       }
     
       __out.push('\n</ul>');

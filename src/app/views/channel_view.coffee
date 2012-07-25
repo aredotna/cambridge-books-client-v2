@@ -1,5 +1,4 @@
 template = require 'views/templates/channel'
-{Block} = require 'models/block'
 
 class exports.ChannelView extends Backbone.View
 
@@ -13,6 +12,6 @@ class exports.ChannelView extends Backbone.View
 	showBlock: ->
 
 	render: ->
-		console.log @model.toJSON()
+		console.log(@model.toJSON())
 		@$el.html @template 
 			blocks: @model.toJSON()
