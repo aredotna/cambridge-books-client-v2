@@ -29,7 +29,12 @@ a:hover
 
 
 /* Default font settings */
+html
+  min-height 100%
+
 body
+  background-color blue
+  min-height 100%
   font-size 15px
   color #666
   background #fff
@@ -55,8 +60,7 @@ p
   margin 0 0 1.5em
 
 a:focus, a:hover
-  color #F95A5A
-  text-decoration underline
+  
 a
   color #F95A5A
   text-decoration none
@@ -68,6 +72,8 @@ ul, ol
 /* Style */
 #content
   margin 0 auto
+  border 5px solid blue
+  overflow auto
 
 h1
   background #91A2C0
@@ -91,7 +97,7 @@ h1
 
 .block
   width 25%
-  display block
+  display table
   padding 20px
   float left
   text-align center
@@ -99,5 +105,8 @@ h1
   border 5px solid blue 
   color red
   letter-spacing 3px
-
+  height 100px
+  .wrapper
+    display table-cell
+    vertical-align middle
 

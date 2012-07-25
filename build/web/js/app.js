@@ -244,7 +244,7 @@ b,c){var d;d=b&&b.hasOwnProperty("constructor")?b.constructor:function(){a.apply
               if (block.get('block_type') === "Channel" && block.get('published')) {
                 return this.channel = new Channel(null, {
                   slug: block.get('slug'),
-                  depth: this.options.depth - 1
+                  depth: channel.options.depth - 1
                 });
               }
             });
@@ -277,7 +277,7 @@ b,c){var d;d=b&&b.hasOwnProperty("constructor")?b.constructor:function(){a.apply
 
     MainRouter.prototype.routes = {
       "": "index",
-      "/:channelSlug": "channel"
+      ":slug": "channel"
     };
 
     MainRouter.prototype.index = function() {
@@ -346,7 +346,7 @@ b,c){var d;d=b&&b.hasOwnProperty("constructor")?b.constructor:function(){a.apply
   (function() {
     (function() {
     
-      __out.push('<!-- START you can remove this -->\n<div id="content">\n  <span id="props">with coffee</span>\n  <h1>brunch</h1>\n  <h2>Welcome!</h2>\n  <ul>\n    <li><a href="http://brunchwithcoffee.com/#documentation">Documentation</a></li>\n    <li><a href="https://github.com/brunch/brunch/issues">Github Issues</a></li>\n    <li><a href="https://github.com/brunch/example-todos">Todos Example App</a></li>\n  </ul>\n</div>\n<!-- END you can remove this -->\n');
+      __out.push('<!-- START you can remove this -->\n<div id="content">\n  <span id="props">with coffee</span>\n  <h1>brunch</h1>\n  <h2>Welcome!</h2>\n  <ul>\n    <li><a href="http://brunchwithcoffee.com/#documentation">Documentation</a></li>\n    <li>\n\t    <div class="wrapper">\n\t    \t<a href="https://github.com/brunch/brunch/issues">Github Issues</a>\n\t    </div>\n    </li>\n    <li><a href="https://github.com/brunch/example-todos">Todos Example App</a></li>\n  </ul>\n</div>\n<!-- END you can remove this -->\n');
     
     }).call(this);
     
@@ -468,9 +468,11 @@ b,c){var d;d=b&&b.hasOwnProperty("constructor")?b.constructor:function(){a.apply
         block = _ref[_i];
         __out.push('\n\t\t');
         if (block.published) {
-          __out.push('\n\t\t\t<li class="block">\n\t\t\t\t');
+          __out.push('\n\t\t\t<li class="block">\n\t\t\t\t<div class="wrapper">\n\t\t\t\t\t<a href="#/');
+          __out.push(block.slug);
+          __out.push('">');
           __out.push(block.title);
-          __out.push('\n\t\t\t</li>\n\t\t');
+          __out.push('</a>\n\t\t\t\t</div>\n\t\t\t</li>\n\t\t');
         }
         __out.push('\n\t');
       }

@@ -5,7 +5,11 @@
   <h2>Welcome!</h2>
   <ul>
     <li><a href="http://brunchwithcoffee.com/#documentation">Documentation</a></li>
-    <li><a href="https://github.com/brunch/brunch/issues">Github Issues</a></li>
+    <li>
+	    <div class="wrapper">
+	    	<a href="https://github.com/brunch/brunch/issues">Github Issues</a>
+	    </div>
+    </li>
     <li><a href="https://github.com/brunch/example-todos">Todos Example App</a></li>
   </ul>
 </div>

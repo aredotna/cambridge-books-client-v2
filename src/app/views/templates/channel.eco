@@ -2,7 +2,9 @@
 	<% for block in @blocks: %>
 		<% if block.published: %>
 			<li class="block">
-				<%- block.title %>
+				<div class="wrapper">
+					<a href="#/<%- block.slug %>"><%- block.title %></a>
+				</div>
 			</li>
 		<% end %>
 	<% end %>

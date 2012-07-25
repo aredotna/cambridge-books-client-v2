@@ -5,7 +5,7 @@ class exports.MainRouter extends Backbone.Router
 
   routes :
     "": "index"
-    "/:channelSlug": "channel"
+    ":slug": "channel"
 
   index: ->
   	channel = new Channel null, 
@@ -14,5 +14,6 @@ class exports.MainRouter extends Backbone.Router
   	app.setView new ChannelView(model: channel)
 	    
   channel: (slug)->
-  	channel = new Channel null, slug:slug
-  	app.setView new ChannelView(model:channel)
+    channel = new Channel null, 
+      slug:slug
+    app.setView new ChannelView(model:channel)
