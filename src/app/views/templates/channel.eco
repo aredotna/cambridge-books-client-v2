@@ -1,0 +1,5 @@
+<div id="channelView">
+	<% for block in @blocks: %>
+		<%- block.title %>
+	<% end %>
+</div>
