@@ -1,0 +1,992 @@
+(function(/*! Brunch !*/) {
+  'use strict';
+
+  var globals = typeof window !== 'undefined' ? window : global;
+  if (typeof globals.require === 'function') return;
+
+  var modules = {};
+  var cache = {};
+
+  var has = function(object, name) {
+    return hasOwnProperty.call(object, name);
+  };
+
+  var expand = function(root, name) {
+    var results = [], parts, part;
+    if (/^\.\.?(\/|$)/.test(name)) {
+      parts = [root, name].join('/').split('/');
+    } else {
+      parts = name.split('/');
+    }
+    for (var i = 0, length = parts.length; i < length; i++) {
+      part = parts[i];
+      if (part === '..') {
+        results.pop();
+      } else if (part !== '.' && part !== '') {
+        results.push(part);
+      }
+    }
+    return results.join('/');
+  };
+
+  var dirname = function(path) {
+    return path.split('/').slice(0, -1).join('/');
+  };
+
+  var localRequire = function(path) {
+    return function(name) {
+      var dir = dirname(path);
+      var absolute = expand(dir, name);
+      return require(absolute);
+    };
+  };
+
+  var initModule = function(name, definition) {
+    var module = {id: name, exports: {}};
+    definition(module.exports, localRequire(name), module);
+    var exports = cache[name] = module.exports;
+    return exports;
+  };
+
+  var require = function(name) {
+    var path = expand(name, '.');
+
+    if (has(cache, path)) return cache[path];
+    if (has(modules, path)) return initModule(path, modules[path]);
+
+    var dirIndex = expand(path, './index');
+    if (has(cache, dirIndex)) return cache[dirIndex];
+    if (has(modules, dirIndex)) return initModule(dirIndex, modules[dirIndex]);
+
+    throw new Error('Cannot find module "' + name + '"');
+  };
+
+  var define = function(bundle) {
+    for (var key in bundle) {
+      if (has(bundle, key)) {
+        modules[key] = bundle[key];
+      }
+    }
+  }
+
+  globals.require = require;
+  globals.require.define = define;
+  globals.require.brunch = true;
+})();
+
+window.require.define({"Application": function(exports, require, module) {
+  (function() {
+    var MainRouter;
+
+    MainRouter = require('routers/main_router').MainRouter;
+
+    exports.Application = (function() {
+
+      function Application() {}
+
+      Application.prototype.initialize = function() {
+        this.views = {};
+        this.routers = {};
+        this.channels = {};
+        this.rootChannel = "cambridge-book--2";
+        this.routers.main = new MainRouter();
+        return Backbone.history.start();
+      };
+
+      Application.prototype.setView = function(view) {
+        this.contentView = view;
+        this.contentView.render();
+        return $('#content').html('').append(this.contentView.el);
+      };
+
+      return Application;
+
+    })();
+
+  }).call(this);
+  
+}});
+
+window.require.define({"config/ApplicationConfig": function(exports, require, module) {
+  
+  /*
+   * Application Configuration
+   * 
+   * @langversion CoffeeScript
+   * 
+   * @author 
+   * @since
+  */
+
+  (function() {
+    var ApplicationConfig;
+
+    ApplicationConfig = (function() {
+
+      function ApplicationConfig() {}
+
+      ApplicationConfig.BASE_URL = "/";
+
+      return ApplicationConfig;
+
+    })();
+
+    module.exports = ApplicationConfig;
+
+  }).call(this);
+  
+}});
+
+window.require.define({"events/ApplicationEvents": function(exports, require, module) {
+  
+  /*
+   * Application Events
+   * 
+   * @langversion CoffeeScript
+   * 
+   * @author 
+   * @since
+  */
+
+  (function() {
+    var ApplicationEvents;
+
+    ApplicationEvents = (function() {
+
+      function ApplicationEvents() {}
+
+      ApplicationEvents.APPLICATION_INITIALIZED = "onApplicationInitialized";
+
+      return ApplicationEvents;
+
+    })();
+
+    module.exports = ApplicationConfig;
+
+  }).call(this);
+  
+}});
+
+window.require.define({"helpers/ViewHelper": function(exports, require, module) {
+  
+  /*
+   * Handlebars Template Helpers
+   * 
+   * @langversion CoffeeScript
+   * 
+   * @author 
+   * @since
+  */
+
+  /*//--------------------------------------
+  //+ PUBLIC PROPERTIES / CONSTANTS
+  //--------------------------------------
+  */
+
+  /*//--------------------------------------
+  //+ PUBLIC METHODS / GETTERS / SETTERS
+  //--------------------------------------
+  */
+
+  (function() {
+
+    Handlebars.registerHelper('link', function(text, url) {
+      var result;
+      text = Handlebars.Utils.escapeExpression(text);
+      url = Handlebars.Utils.escapeExpression(url);
+      result = '<a href="' + url + '">' + text + '</a>';
+      return new Handlebars.SafeString(result);
+    });
+
+  }).call(this);
+  
+}});
+
+window.require.define({"initialize": function(exports, require, module) {
+  
+  /*
+   * Application Initializer
+   * 
+   * @langversion CoffeeScript
+   * 
+   * @author 
+   * @since
+  */
+
+  (function() {
+    var Application;
+
+    Application = require('Application').Application;
+
+    $(function() {
+      window.app = new Application;
+      return window.app.initialize();
+    });
+
+  }).call(this);
+  
+}});
+
+window.require.define({"models/block": function(exports, require, module) {
+  (function() {
+    var __hasProp = Object.prototype.hasOwnProperty,
+      __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
+
+    exports.Block = (function(_super) {
+
+      __extends(Block, _super);
+
+      function Block() {
+        Block.__super__.constructor.apply(this, arguments);
+      }
+
+      return Block;
+
+    })(Backbone.Model);
+
+  }).call(this);
+  
+}});
+
+window.require.define({"models/channel": function(exports, require, module) {
+  (function() {
+    var Block,
+      __hasProp = Object.prototype.hasOwnProperty,
+      __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
+
+    Block = require('models/block').Block;
+
+    exports.Channel = (function(_super) {
+
+      __extends(Channel, _super);
+
+      function Channel() {
+        Channel.__super__.constructor.apply(this, arguments);
+      }
+
+      Channel.prototype.model = Block;
+
+      Channel.prototype.defaults = {
+        depth: 0,
+        autoload: true
+      };
+
+      Channel.prototype.url = function() {
+        return "http://arena-cedar.herokuapp.com/api/v1/channels/" + this.options.slug + ".json?callback=?";
+      };
+
+      Channel.prototype.initialize = function(items, options) {
+        this.options = _.extend(this.defaults, options);
+        if (this.options.autoload) return this.loadBlocks(this.options.depth);
+      };
+
+      Channel.prototype.loadBlocks = function(depth) {
+        var _this = this;
+        if (depth == null) depth = 0;
+        return this.fetch({
+          success: function(channel, blocks) {
+            _this.reset();
+            _this.add(blocks.blocks);
+            _this.add(blocks.channels);
+            if (depth) {
+              return _this.each(function(block) {
+                if (block.get('block_type') === "Channel" && block.get('published')) {
+                  return this.channel = new Channel(null, {
+                    slug: block.get('slug'),
+                    depth: channel.options.depth - 1
+                  });
+                }
+              });
+            }
+          }
+        });
+      };
+
+      return Channel;
+
+    })(Backbone.Collection);
+
+  }).call(this);
+  
+}});
+
+window.require.define({"models/supers/Collection": function(exports, require, module) {
+  
+  /*
+   * Base Class for all Backbone Collections
+   * 
+   * @langversion CoffeeScript
+   * 
+   * @author 
+   * @since
+  */
+
+  (function() {
+    var Collection,
+      __hasProp = Object.prototype.hasOwnProperty,
+      __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
+
+    module.exports = Collection = (function(_super) {
+
+      __extends(Collection, _super);
+
+      function Collection() {
+        Collection.__super__.constructor.apply(this, arguments);
+      }
+
+      /*//--------------------------------------
+      	//+ PUBLIC PROPERTIES / CONSTANTS
+      	//--------------------------------------
+      */
+
+      /*//--------------------------------------
+      	//+ INHERITED / OVERRIDES
+      	//--------------------------------------
+      */
+
+      /*//--------------------------------------
+      	//+ PUBLIC METHODS / GETTERS / SETTERS
+      	//--------------------------------------
+      */
+
+      /*//--------------------------------------
+      	//+ EVENT HANDLERS
+      	//--------------------------------------
+      */
+
+      /*//--------------------------------------
+      	//+ PRIVATE AND PROTECTED METHODS
+      	//--------------------------------------
+      */
+
+      return Collection;
+
+    })(Backbone.Collection);
+
+  }).call(this);
+  
+}});
+
+window.require.define({"models/supers/Model": function(exports, require, module) {
+  
+  /*
+   * Base Class for all Backbone Models
+   * 
+   * @langversion CoffeeScript
+   * 
+   * @author 
+   * @since
+  */
+
+  (function() {
+    var Model,
+      __hasProp = Object.prototype.hasOwnProperty,
+      __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
+
+    module.exports = Model = (function(_super) {
+
+      __extends(Model, _super);
+
+      function Model() {
+        Model.__super__.constructor.apply(this, arguments);
+      }
+
+      /*//--------------------------------------
+      	//+ PUBLIC PROPERTIES / CONSTANTS
+      	//--------------------------------------
+      */
+
+      /*//--------------------------------------
+      	//+ INHERITED / OVERRIDES
+      	//--------------------------------------
+      */
+
+      /*//--------------------------------------
+      	//+ PUBLIC METHODS / GETTERS / SETTERS
+      	//--------------------------------------
+      */
+
+      /*//--------------------------------------
+      	//+ EVENT HANDLERS
+      	//--------------------------------------
+      */
+
+      /*//--------------------------------------
+      	//+ PRIVATE AND PROTECTED METHODS
+      	//--------------------------------------
+      */
+
+      return Model;
+
+    })(Backbone.Model);
+
+  }).call(this);
+  
+}});
+
+window.require.define({"routers/main_router": function(exports, require, module) {
+  (function() {
+    var Channel, ChannelView,
+      __hasProp = Object.prototype.hasOwnProperty,
+      __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
+
+    Channel = require('models/channel').Channel;
+
+    ChannelView = require('views/channel_view').ChannelView;
+
+    exports.MainRouter = (function(_super) {
+
+      __extends(MainRouter, _super);
+
+      function MainRouter() {
+        MainRouter.__super__.constructor.apply(this, arguments);
+      }
+
+      MainRouter.prototype.routes = {
+        "": "index",
+        ":slug": "channel"
+      };
+
+      MainRouter.prototype.index = function() {
+        var channel;
+        channel = new Channel(null, {
+          slug: app.rootChannel,
+          depth: 3
+        });
+        return app.setView(new ChannelView({
+          model: channel
+        }));
+      };
+
+      MainRouter.prototype.channel = function(slug) {
+        var channel;
+        channel = new Channel(null, {
+          slug: slug
+        });
+        return app.setView(new ChannelView({
+          model: channel
+        }));
+      };
+
+      return MainRouter;
+
+    })(Backbone.Router);
+
+  }).call(this);
+  
+}});
+
+window.require.define({"utils/BackboneView": function(exports, require, module) {
+  
+  /*
+   * View Description
+   * 
+   * @langversion CoffeeScript
+   * 
+   * @author 
+   * @since
+  */
+
+  (function() {
+    var BackboneView, View, template,
+      __hasProp = Object.prototype.hasOwnProperty,
+      __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
+
+    View = require('./supers/View');
+
+    template = require('templates/HomeViewTemplate');
+
+    module.exports = BackboneView = (function(_super) {
+
+      __extends(BackboneView, _super);
+
+      function BackboneView() {
+        BackboneView.__super__.constructor.apply(this, arguments);
+      }
+
+      /*//--------------------------------------
+      	//+ PUBLIC PROPERTIES / CONSTANTS
+      	//--------------------------------------
+      */
+
+      BackboneView.prototype.id = 'view';
+
+      BackboneView.prototype.template = template;
+
+      /*//--------------------------------------
+       	//+ INHERITED / OVERRIDES
+       	//--------------------------------------
+      */
+
+      BackboneView.prototype.initialize = function() {
+        return this.render = _.bind(this.render, this);
+      };
+
+      BackboneView.prototype.render = function() {
+        this.$el.html(this.template(this.getRenderData()));
+        return this;
+      };
+
+      BackboneView.prototype.getRenderData = function() {
+        return {
+          content: "View Content"
+        };
+      };
+
+      /*//--------------------------------------
+      	//+ PUBLIC METHODS / GETTERS / SETTERS
+      	//--------------------------------------
+      */
+
+      /*//--------------------------------------
+      	//+ EVENT HANDLERS
+      	//--------------------------------------
+      */
+
+      /*//--------------------------------------
+      	//+ PRIVATE AND PROTECTED METHODS
+      	//--------------------------------------
+      */
+
+      return BackboneView;
+
+    })(View);
+
+  }).call(this);
+  
+}});
+
+window.require.define({"views/HomeView": function(exports, require, module) {
+  
+  /*
+   * View Description
+   * 
+   * @langversion CoffeeScript
+   * 
+   * @author 
+   * @since
+  */
+
+  (function() {
+    var HomeView, View, template,
+      __hasProp = Object.prototype.hasOwnProperty,
+      __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
+
+    View = require('./supers/View');
+
+    template = require('./templates/HomeViewTemplate');
+
+    module.exports = HomeView = (function(_super) {
+
+      __extends(HomeView, _super);
+
+      function HomeView() {
+        HomeView.__super__.constructor.apply(this, arguments);
+      }
+
+      /*//--------------------------------------
+      	//+ PUBLIC PROPERTIES / CONSTANTS
+      	//--------------------------------------
+      */
+
+      HomeView.prototype.id = 'home-view';
+
+      HomeView.prototype.template = template;
+
+      /*//--------------------------------------
+       	//+ INHERITED / OVERRIDES
+       	//--------------------------------------
+      */
+
+      HomeView.prototype.initialize = function() {
+        return this.render = _.bind(this.render, this);
+      };
+
+      HomeView.prototype.render = function() {
+        this.$el.html(this.template(this.getRenderData()));
+        return this;
+      };
+
+      HomeView.prototype.getRenderData = function() {
+        return {
+          content: "Application Content"
+        };
+      };
+
+      /*//--------------------------------------
+      	//+ PUBLIC METHODS / GETTERS / SETTERS
+      	//--------------------------------------
+      */
+
+      /*//--------------------------------------
+      	//+ EVENT HANDLERS
+      	//--------------------------------------
+      */
+
+      /*//--------------------------------------
+      	//+ PRIVATE AND PROTECTED METHODS
+      	//--------------------------------------
+      */
+
+      return HomeView;
+
+    })(View);
+
+  }).call(this);
+  
+}});
+
+window.require.define({"views/channel_view": function(exports, require, module) {
+  (function() {
+    var template,
+      __hasProp = Object.prototype.hasOwnProperty,
+      __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
+
+    template = require('./templates/channel');
+
+    exports.ChannelView = (function(_super) {
+
+      __extends(ChannelView, _super);
+
+      function ChannelView() {
+        ChannelView.__super__.constructor.apply(this, arguments);
+      }
+
+      ChannelView.prototype.events = {
+        "click .block": "showBlock"
+      };
+
+      ChannelView.prototype.initialize = function() {
+        this.template = template;
+        return this.model.bind("add", this.render, this);
+      };
+
+      ChannelView.prototype.showBlock = function() {};
+
+      ChannelView.prototype.render = function() {
+        console.log(this.model.toJSON());
+        return this.$el.html(this.template({
+          blocks: this.model.toJSON()
+        }));
+      };
+
+      return ChannelView;
+
+    })(Backbone.View);
+
+  }).call(this);
+  
+}});
+
+window.require.define({"views/home_view": function(exports, require, module) {
+  (function() {
+    var homeTemplate,
+      __hasProp = Object.prototype.hasOwnProperty,
+      __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
+
+    homeTemplate = require('templates/home');
+
+    exports.HomeView = (function(_super) {
+
+      __extends(HomeView, _super);
+
+      function HomeView() {
+        HomeView.__super__.constructor.apply(this, arguments);
+      }
+
+      HomeView.prototype.id = 'home-view';
+
+      HomeView.prototype.render = function() {
+        $(this.el).html(homeTemplate());
+        return this;
+      };
+
+      return HomeView;
+
+    })(Backbone.View);
+
+  }).call(this);
+  
+}});
+
+window.require.define({"views/menu_view": function(exports, require, module) {
+  (function() {
+    var template,
+      __hasProp = Object.prototype.hasOwnProperty,
+      __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
+
+    template = require('views/templates/menu');
+
+    exports.MenuView = (function(_super) {
+
+      __extends(MenuView, _super);
+
+      function MenuView() {
+        MenuView.__super__.constructor.apply(this, arguments);
+      }
+
+      MenuView.prototype.defaults = {
+        depth: 1
+      };
+
+      MenuView.prototype.initialize = function() {
+        _.extend(this.options, defaults);
+        this.template = template;
+        if (this.model.options.depth < this.options.depth) {
+          return this.model.loadBlocks(depth);
+        }
+      };
+
+      MenuView.prototype.render = function() {
+        return this.$el.html(this.template({
+          blocks: this.model.toJSON()
+        }));
+      };
+
+      return MenuView;
+
+    })(Backbone.View);
+
+  }).call(this);
+  
+}});
+
+window.require.define({"views/supers/View": function(exports, require, module) {
+  
+  /*
+   * View Base Class
+   * 
+   * @langversion CoffeeScript
+   * 
+   * @author 
+   * @since
+  */
+
+  (function() {
+    var View,
+      __hasProp = Object.prototype.hasOwnProperty,
+      __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
+
+    require('helpers/ViewHelper');
+
+    module.exports = View = (function(_super) {
+
+      __extends(View, _super);
+
+      function View() {
+        View.__super__.constructor.apply(this, arguments);
+      }
+
+      /*//--------------------------------------
+      //+ PUBLIC PROPERTIES / CONSTANTS
+      //--------------------------------------
+      */
+
+      View.prototype.template = function() {};
+
+      View.prototype.getRenderData = function() {};
+
+      /*//--------------------------------------
+      //+ INHERITED / OVERRIDES
+      //--------------------------------------
+      */
+
+      View.prototype.initialize = function() {
+        return this.render = _.bind(this.render, this);
+      };
+
+      View.prototype.render = function() {
+        this.$el.html(this.template(this.getRenderData()));
+        this.afterRender();
+        return this;
+      };
+
+      View.prototype.afterRender = function() {};
+
+      /*//--------------------------------------
+      //+ PUBLIC METHODS / GETTERS / SETTERS
+      //--------------------------------------
+      */
+
+      /*//--------------------------------------
+      //+ EVENT HANDLERS
+      //--------------------------------------
+      */
+
+      /*//--------------------------------------
+      //+ PRIVATE AND PROTECTED METHODS
+      //--------------------------------------
+      */
+
+      return View;
+
+    })(Backbone.View);
+
+  }).call(this);
+  
+}});
+
+window.require.define({"views/templates/channel": function(exports, require, module) {
+  module.exports = function (__obj) {
+    if (!__obj) __obj = {};
+    var __out = [], __capture = function(callback) {
+      var out = __out, result;
+      __out = [];
+      callback.call(this);
+      result = __out.join('');
+      __out = out;
+      return __safe(result);
+    }, __sanitize = function(value) {
+      if (value && value.ecoSafe) {
+        return value;
+      } else if (typeof value !== 'undefined' && value != null) {
+        return __escape(value);
+      } else {
+        return '';
+      }
+    }, __safe, __objSafe = __obj.safe, __escape = __obj.escape;
+    __safe = __obj.safe = function(value) {
+      if (value && value.ecoSafe) {
+        return value;
+      } else {
+        if (!(typeof value !== 'undefined' && value != null)) value = '';
+        var result = new String(value);
+        result.ecoSafe = true;
+        return result;
+      }
+    };
+    if (!__escape) {
+      __escape = __obj.escape = function(value) {
+        return ('' + value)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;');
+      };
+    }
+    (function() {
+      (function() {
+        var block, _i, _len, _ref;
+      
+        __out.push('<ul id="channelView">\n\t');
+      
+        _ref = this.blocks;
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          block = _ref[_i];
+          __out.push('\n\t\t<li class="block ');
+          __out.push(block.block_class);
+          __out.push('">\n\t\t\t<div class="wrapper">\n\n\t\t        ');
+          if (block.block_type === 'Image') {
+            __out.push('\n\t\t          <!-- IMAGE -->\n\t\t          <img src="');
+            __out.push(__sanitize(block.image.display));
+            __out.push('" alt="');
+            __out.push(__sanitize(block.title));
+            __out.push('" />\n\t\t      \n\n\t\t        ');
+          } else if (block.block_type === 'Link') {
+            __out.push('\n\t\t          <!-- LINK -->\n\t\t          ');
+            if (block.image.display) {
+              __out.push('\n\t\t              <img src="');
+              __out.push(__sanitize(block.image.display));
+              __out.push('" alt="');
+              __out.push(__sanitize(block.title));
+              __out.push('" />\n\t\t          ');
+            } else {
+              __out.push('\n\t\t            <p>\n\t\t              <a href="');
+              __out.push(__sanitize(block.link_url));
+              __out.push('" class="external url" target="_blank">');
+              __out.push(__sanitize(block.link_url));
+              __out.push('</a>\n\t\t            </p>\n\t\t          ');
+            }
+            __out.push('\n\t\t      \n\n\t\t        ');
+          } else if (block.block_type === 'Text') {
+            __out.push('\n\t\t          <!-- TEXT -->\n\t\t          <div class="content">\n\t\t            ');
+            __out.push(block.content);
+            __out.push('\n\t\t          </div>\n\t\t      \n\n\t\t        ');
+          } else if (block.block_type === 'Channel' && block.published === true) {
+            __out.push('\n\t\t          <!-- CHANNEL -->\n\t\t          <a href="#/');
+            __out.push(__sanitize(block.slug));
+            __out.push('">');
+            __out.push(block.title);
+            __out.push('</a>\n\t\t        ');
+          }
+          __out.push('\n\n\n\t\t\t</div>\n\t\t</li>\n\t');
+        }
+      
+        __out.push('\n</ul>');
+      
+      }).call(this);
+      
+    }).call(__obj);
+    __obj.safe = __objSafe, __obj.escape = __escape;
+    return __out.join('');
+  }
+}});
+
+window.require.define({"views/templates/menu": function(exports, require, module) {
+  module.exports = function (__obj) {
+    if (!__obj) __obj = {};
+    var __out = [], __capture = function(callback) {
+      var out = __out, result;
+      __out = [];
+      callback.call(this);
+      result = __out.join('');
+      __out = out;
+      return __safe(result);
+    }, __sanitize = function(value) {
+      if (value && value.ecoSafe) {
+        return value;
+      } else if (typeof value !== 'undefined' && value != null) {
+        return __escape(value);
+      } else {
+        return '';
+      }
+    }, __safe, __objSafe = __obj.safe, __escape = __obj.escape;
+    __safe = __obj.safe = function(value) {
+      if (value && value.ecoSafe) {
+        return value;
+      } else {
+        if (!(typeof value !== 'undefined' && value != null)) value = '';
+        var result = new String(value);
+        result.ecoSafe = true;
+        return result;
+      }
+    };
+    if (!__escape) {
+      __escape = __obj.escape = function(value) {
+        return ('' + value)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;');
+      };
+    }
+    (function() {
+      (function() {
+        var block, _i, _len, _ref;
+      
+        __out.push('<ul>\n\t');
+      
+        _ref = this.blocks;
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          block = _ref[_i];
+          __out.push('\n\t\t');
+          if (block.block_type === "Channel") {
+            __out.push('\n\t\t\t<li class="menuItem">\n\t\t\t\t<a href="');
+            __out.push(block.slug);
+            __out.push('">');
+            __out.push(block.title);
+            __out.push('</a>\n\t\t\t</li>\n\t\t');
+          }
+          __out.push('\n\t');
+        }
+      
+        __out.push('\n</ul>');
+      
+      }).call(this);
+      
+    }).call(__obj);
+    __obj.safe = __objSafe, __obj.escape = __escape;
+    return __out.join('');
+  }
+}});
+
