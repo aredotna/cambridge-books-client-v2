@@ -353,7 +353,45 @@ b,c){var d;d=b&&b.hasOwnProperty("constructor")?b.constructor:function(){a.apply
   }).call(__obj);
   __obj.safe = __objSafe, __obj.escape = __escape;
   return __out.join('');
-}}, "views/channel_view": function(exports, require, module) {(function() {
+}}, "views/MenuView": function(exports, require, module) {(function() {
+  var template,
+    __hasProp = {}.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+  template = require('views/templates/menu');
+
+  exports.MenuView = (function(_super) {
+
+    __extends(MenuView, _super);
+
+    function MenuView() {
+      return MenuView.__super__.constructor.apply(this, arguments);
+    }
+
+    MenuView.prototype.defaults = {
+      depth: 1
+    };
+
+    MenuView.prototype.initialize = function() {
+      _.extend(this.options, defaults);
+      this.template = template;
+      if (this.model.options.depth < this.options.depth) {
+        return this.model.loadBlocks(depth);
+      }
+    };
+
+    MenuView.prototype.render = function() {
+      return this.$el.html(this.template({
+        blocks: this.model.toJSON()
+      }));
+    };
+
+    return MenuView;
+
+  })(Backbone.View);
+
+}).call(this);
+}, "views/channel_view": function(exports, require, module) {(function() {
   var template,
     __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -501,6 +539,70 @@ b,c){var d;d=b&&b.hasOwnProperty("constructor")?b.constructor:function(){a.apply
           __out.push('</a>\n\t\t        ');
         }
         __out.push('\n\n\n\t\t\t</div>\n\t\t</li>\n\t');
+      }
+    
+      __out.push('\n</ul>');
+    
+    }).call(this);
+    
+  }).call(__obj);
+  __obj.safe = __objSafe, __obj.escape = __escape;
+  return __out.join('');
+}}, "views/templates/menu": function(exports, require, module) {module.exports = function(__obj) {
+  if (!__obj) __obj = {};
+  var __out = [], __capture = function(callback) {
+    var out = __out, result;
+    __out = [];
+    callback.call(this);
+    result = __out.join('');
+    __out = out;
+    return __safe(result);
+  }, __sanitize = function(value) {
+    if (value && value.ecoSafe) {
+      return value;
+    } else if (typeof value !== 'undefined' && value != null) {
+      return __escape(value);
+    } else {
+      return '';
+    }
+  }, __safe, __objSafe = __obj.safe, __escape = __obj.escape;
+  __safe = __obj.safe = function(value) {
+    if (value && value.ecoSafe) {
+      return value;
+    } else {
+      if (!(typeof value !== 'undefined' && value != null)) value = '';
+      var result = new String(value);
+      result.ecoSafe = true;
+      return result;
+    }
+  };
+  if (!__escape) {
+    __escape = __obj.escape = function(value) {
+      return ('' + value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    };
+  }
+  (function() {
+    (function() {
+      var block, _i, _len, _ref;
+    
+      __out.push('<ul>\n\t');
+    
+      _ref = this.blocks;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        block = _ref[_i];
+        __out.push('\n\t\t');
+        if (block.block_type === "Channel") {
+          __out.push('\n\t\t\t<li class="menuItem">\n\t\t\t\t<a href="');
+          __out.push(block.slug);
+          __out.push('">');
+          __out.push(block.title);
+          __out.push('</a>\n\t\t\t</li>\n\t\t');
+        }
+        __out.push('\n\t');
       }
     
       __out.push('\n</ul>');
