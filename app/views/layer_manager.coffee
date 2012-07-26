@@ -1,5 +1,6 @@
 {LayerView} = require('views/layer_view')
 
+
 class exports.LayerManager extends Backbone.View
 
 	initialize: ->
@@ -10,7 +11,7 @@ class exports.LayerManager extends Backbone.View
 			contentView: contentView
 			depth: @layers.length
 
-		@bind 'layer:close', @removeLayer, @
+		layer.bind 'layer:close', @removeLayer, @
 
 		@layers.push(layer)
 		@render()
@@ -22,4 +23,9 @@ class exports.LayerManager extends Backbone.View
 			@$el.append(@layers[i].el)
 
 	removeLayer: (layer)->
+		for _layer in @layers
+			if _layer is layer 
+				@layers.splice @layers.indexOf(_layer), 1
+
+
 
