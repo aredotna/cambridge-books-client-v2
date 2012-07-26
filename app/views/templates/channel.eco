@@ -1,4 +1,4 @@
-<ul id="channelView">
+<ul class="channelView">
 	<% for block in @blocks: %>
 		<li id="<%- block.id %>" class="block <%- block.block_class %>">
 			<div class="wrapper">
