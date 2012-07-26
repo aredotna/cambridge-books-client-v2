@@ -76,15 +76,17 @@
 
 window.require.define({"Application": function(exports, require, module) {
   (function() {
-    var Block, Channel, LayerManager, MainRouter;
+    var Block, Channel, ChannelView, LayerManager, MainRouter;
 
     MainRouter = require('routers/main_router').MainRouter;
-
-    LayerManager = require('views/layer_manager').LayerManager;
 
     Channel = require('models/channel').Channel;
 
     Block = require('models/block').Block;
+
+    LayerManager = require('views/layer_manager').LayerManager;
+
+    ChannelView = require('view/channel').ChannelView;
 
     exports.Application = (function() {
 
@@ -485,11 +487,7 @@ window.require.define({"routers/main_router": function(exports, require, module)
       };
 
       MainRouter.prototype.index = function() {
-        var channel;
-        channel = new Channel(null, {
-          slug: app.options.rootChannel,
-          depth: 3
-        });
+        app.addChannel(app.options.rootChannel);
         return app.setView(new ChannelView({
           model: channel
         }));

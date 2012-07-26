@@ -1,7 +1,8 @@
 {MainRouter} = require('routers/main_router')
-{LayerManager} = require('views/layer_manager')
 {Channel} = require('models/channel')
 {Block} = require('models/block')
+{LayerManager} = require('views/layer_manager')
+{ChannelView} = require('view/channel')
 
 class exports.Application
 
