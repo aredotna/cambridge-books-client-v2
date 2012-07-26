@@ -12,4 +12,5 @@
 $ ->
 
 	window.app = new Application
-	window.app.initialize()
+	window.app.initialize
+		rootChannel : "cambridge-book--2"

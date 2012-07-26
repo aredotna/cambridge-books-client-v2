@@ -5,37 +5,40 @@
 
 class exports.Application
 
-	initialize: ->
+  defaults: {}
 
-		@rootChannel = "cambridge-book--2"
+  initialize: (options)->
 
-		@layerManager = new LayerManager
-			el: $('#layers')
+    @options = {}
+    _.extend(@options, options)
 
-		@router = new MainRouter()
-		Backbone.history.start()
+    @layerManager = new LayerManager
+    	el: $('#layers')
 
-	addChannel: (slug)->
-		channel = new Channel
-			slug: slug
-		view = new ChannelView(channel)
-		@addLayer(view)
+    @router = new MainRouter()
+    Backbone.history.start()
 
-	addBlock: (id)->
-		block = new Block
-			id: id
-		view = new BlockView(block)
-		@addLayer(view)
+  addChannel: (slug)->
+    channel = new Channel
+      slug: slug
+    view = new ChannelView(channel)
+    @addLayer(view)
 
-	addLayer: (content)->
-		layerView = new LayerView
-			content: content
-		@layerManager.addLayer(layerView)
+  addBlock: (id)->
+    block = new Block
+      id: id
+    view = new BlockView(block)
+    @addLayer(view)
 
-	setView: (view)->
-		@contentView = view
-		@contentView.render()
-		$('#content').html('').append(@contentView.el)
+  addLayer: (content)->
+    layerView = new LayerView
+      content: content
+    @layerManager.addLayer(layerView)
+
+  setView: (view)->
+    @contentView = view
+    @contentView.render()
+    $('#content').html('').append(@contentView.el)
 
 
 

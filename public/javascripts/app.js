@@ -90,8 +90,11 @@ window.require.define({"Application": function(exports, require, module) {
 
       function Application() {}
 
-      Application.prototype.initialize = function() {
-        this.rootChannel = "cambridge-book--2";
+      Application.prototype.defaults = {};
+
+      Application.prototype.initialize = function(options) {
+        this.options = {};
+        _.extend(this.options, options);
         this.layerManager = new LayerManager({
           el: $('#layers')
         });
@@ -252,7 +255,9 @@ window.require.define({"initialize": function(exports, require, module) {
 
     $(function() {
       window.app = new Application;
-      return window.app.initialize();
+      return window.app.initialize({
+        rootChannel: "cambridge-book--2"
+      });
     });
 
   }).call(this);
@@ -482,7 +487,7 @@ window.require.define({"routers/main_router": function(exports, require, module)
       MainRouter.prototype.index = function() {
         var channel;
         channel = new Channel(null, {
-          slug: app.rootChannel,
+          slug: app.options.rootChannel,
           depth: 3
         });
         return app.setView(new ChannelView({
