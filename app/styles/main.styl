@@ -26,7 +26,6 @@ a:hover
 
 
 
-/* Default font settings */
 html
   min-height 100%
 
@@ -37,7 +36,6 @@ body
   background blue
   font-family "KievitPro", "ff-kievit-web-pro-1","ff-kievit-web-pro-2", "Helvetica Neue", Arial, Helvetica, sans-serif
 
-/* Headings */
 h1,h2,h3,h3,h4
   font-weight normal
   color #222
@@ -52,7 +50,6 @@ h2
   line-height 1
   margin-bottom 0.5em
 
-/* Text elements */
 p
   margin 0 0 1.5em
 
@@ -61,12 +58,11 @@ a:focus, a:hover
 a
   color #F95A5A
   text-decoration none
+  cursor pointer
 
-/* Lists */
 ul, ol
   list-style-type none
 
-/* Style */
 #content
   margin 0 auto
   border 5px solid blue
@@ -100,6 +96,11 @@ h1
   box-sizing: border-box;
   padding-top: 20px
   min-height 1000px
+  .close
+    position absolute
+    top 10px
+    left 10px
+
 .channelView 
   overflow auto
 

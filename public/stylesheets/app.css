@@ -107,7 +107,6 @@ a:hover {
   -moz-border-radius: 4px;
   border-radius: 4px;
 }
-/* Default font settings */
 html {
   min-height: 100%;
 }
@@ -118,7 +117,6 @@ body {
   background: #00f;
   font-family: "KievitPro", "ff-kievit-web-pro-1", "ff-kievit-web-pro-2", "Helvetica Neue", Arial, Helvetica, sans-serif;
 }
-/* Headings */
 h1,
 h2,
 h3,
@@ -138,7 +136,6 @@ h2 {
   line-height: 1;
   margin-bottom: 0.5em;
 }
-/* Text elements */
 p {
   margin: 0 0 1.5em;
 }
@@ -147,13 +144,12 @@ a:hover,
 a {
   color: #f95a5a;
   text-decoration: none;
+  cursor: pointer;
 }
-/* Lists */
 ul,
 ol {
   list-style-type: none;
 }
-/* Style */
 #content {
   margin: 0 auto;
   border: 5px solid #00f;
@@ -187,6 +183,11 @@ h1 {
   box-sizing: border-box;
   padding-top: 20px;
   min-height: 1000px;
+}
+.layer .close {
+  position: absolute;
+  top: 10px;
+  left: 10px;
 }
 .channelView {
   overflow: auto;
