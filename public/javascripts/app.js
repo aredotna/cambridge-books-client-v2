@@ -702,9 +702,10 @@ window.require.define({"views/channel_view": function(exports, require, module) 
       };
 
       ChannelView.prototype.render = function() {
-        return this.$el.html(this.template({
+        this.$el.html(this.template({
           blocks: this.model.toJSON()
         }));
+        return this.delegateEvents();
       };
 
       return ChannelView;
@@ -772,19 +773,23 @@ window.require.define({"views/layer_manager": function(exports, require, module)
           contentView: contentView,
           depth: this.layers.length
         });
+        this.bind('layer:close', this.removeLayer, this);
         this.layers.push(layer);
         return this.render();
       };
 
       LayerManager.prototype.render = function() {
         var i, _ref, _results;
+        this.$el.html();
         _results = [];
         for (i = 0, _ref = this.layers.length - 1; 0 <= _ref ? i <= _ref : i >= _ref; 0 <= _ref ? i++ : i--) {
           this.layers[i].render();
-          _results.push(this.layers[i].$el.appendTo(this.$el));
+          _results.push(this.$el.append(this.layers[i].el));
         }
         return _results;
       };
+
+      LayerManager.prototype.removeLayer = function(layer) {};
 
       return LayerManager;
 
@@ -825,7 +830,9 @@ window.require.define({"views/layer_view": function(exports, require, module) {
 
       LayerView.prototype.render = function() {
         this.$el.html(this.template());
-        this.$el.append(this.contentView.render());
+        this.contentView.render();
+        this.delegateEvents();
+        this.$el.append(this.contentView.el);
         return this.$el.css({
           top: this.options.depth * 50,
           zIndex: this.options.depth,
@@ -834,7 +841,8 @@ window.require.define({"views/layer_view": function(exports, require, module) {
       };
 
       LayerView.prototype.close = function() {
-        return this.$el.remove();
+        this.$el.remove();
+        return this.trigger('layer:close', this);
       };
 
       return LayerView;

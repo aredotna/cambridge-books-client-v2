@@ -9,12 +9,14 @@ class exports.LayerView extends Backbone.View
 		"click .close": "close"
 
 	initialize: ->
-		@template= template
+		@template = template
 		@contentView = @options.contentView
 
 	render: ->
 		@$el.html @template()
-		@$el.append @contentView.render()
+		@contentView.render()
+		@delegateEvents()
+		@$el.append @contentView.el
 		@$el.css
 			top: @options.depth * 50
 			zIndex: @options.depth
@@ -22,3 +24,6 @@ class exports.LayerView extends Backbone.View
 
 	close: ->
 		@$el.remove()
+		@trigger('layer:close', @)
+
+

@@ -10,10 +10,16 @@ class exports.LayerManager extends Backbone.View
 			contentView: contentView
 			depth: @layers.length
 
+		@bind 'layer:close', @removeLayer, @
+
 		@layers.push(layer)
 		@render()
 
 	render: ->
+		@$el.html()
 		for i in [0..@layers.length-1]
 			@layers[i].render() 
-			@layers[i].$el.appendTo(@$el)
+			@$el.append(@layers[i].el)
+
+	removeLayer: (layer)->
+
