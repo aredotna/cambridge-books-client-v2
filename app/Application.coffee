@@ -5,17 +5,13 @@
 class exports.Application
 
 	initialize: ->
-
-		@views = {}
-		@routers = {}
-		@channels = {}
-
+		
 		@rootChannel = "cambridge-book--2"
 
 		@layerManager = new layerManager
 			el: $('#layers')
 
-		@routers.main = new MainRouter()
+		@router = new MainRouter()
 		Backbone.history.start()
 
 
