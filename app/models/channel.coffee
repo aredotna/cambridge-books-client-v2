@@ -13,7 +13,6 @@ class exports.Channel extends Backbone.Collection
 
 	initialize: (items, options)->
 		@options = _.extend(@defaults, options)
-
 		if @options.autoload
 			@loadBlocks(@options.depth)
 

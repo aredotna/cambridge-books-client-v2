@@ -76,7 +76,7 @@
 
 window.require.define({"Application": function(exports, require, module) {
   (function() {
-    var Block, Channel, ChannelView, LayerManager, MainRouter;
+    var Block, Channel, ChannelView, LayerManager, LayerView, MainRouter;
 
     MainRouter = require('routers/main_router').MainRouter;
 
@@ -86,7 +86,9 @@ window.require.define({"Application": function(exports, require, module) {
 
     LayerManager = require('views/layer_manager').LayerManager;
 
-    ChannelView = require('view/channel').ChannelView;
+    LayerView = require('views/layer_view').LayerView;
+
+    ChannelView = require('views/channel_view').ChannelView;
 
     exports.Application = (function() {
 
@@ -106,10 +108,12 @@ window.require.define({"Application": function(exports, require, module) {
 
       Application.prototype.addChannel = function(slug) {
         var channel, view;
-        channel = new Channel({
+        channel = new Channel(null, {
           slug: slug
         });
-        view = new ChannelView(channel);
+        view = new ChannelView({
+          model: channel
+        });
         return this.addLayer(view);
       };
 
@@ -123,11 +127,7 @@ window.require.define({"Application": function(exports, require, module) {
       };
 
       Application.prototype.addLayer = function(content) {
-        var layerView;
-        layerView = new LayerView({
-          content: content
-        });
-        return this.layerManager.addLayer(layerView);
+        return this.layerManager.addLayer(content);
       };
 
       Application.prototype.setView = function(view) {
@@ -487,20 +487,11 @@ window.require.define({"routers/main_router": function(exports, require, module)
       };
 
       MainRouter.prototype.index = function() {
-        app.addChannel(app.options.rootChannel);
-        return app.setView(new ChannelView({
-          model: channel
-        }));
+        return app.addChannel(app.options.rootChannel);
       };
 
       MainRouter.prototype.channel = function(slug) {
-        var channel;
-        channel = new Channel(null, {
-          slug: slug
-        });
-        return app.setView(new ChannelView({
-          model: channel
-        }));
+        return app.addChannel(slug);
       };
 
       return MainRouter;
@@ -697,13 +688,12 @@ window.require.define({"views/channel_view": function(exports, require, module) 
       };
 
       ChannelView.prototype.showBlock = function(e) {
-        var block, channel, id;
+        var block, id;
         id = parseInt(e.target.id);
         block = this.model.where({
           id: id
         })[0];
         if (block.get('block_type') === "Channel") {
-          channel = new Channel;
           app.addChannel(block.get('slug'));
         } else {
           app.addBlock(block.id);
@@ -758,15 +748,23 @@ window.require.define({"views/home_view": function(exports, require, module) {
 
 window.require.define({"views/layer_manager": function(exports, require, module) {
   (function() {
-    var LayerView;
+    var LayerView,
+      __hasProp = Object.prototype.hasOwnProperty,
+      __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
 
     LayerView = require('views/layer_view').LayerView;
 
-    exports.LayerManager = (function() {
+    exports.LayerManager = (function(_super) {
 
-      function LayerManager() {}
+      __extends(LayerManager, _super);
 
-      LayerManager.prototype.initialize = function() {};
+      function LayerManager() {
+        LayerManager.__super__.constructor.apply(this, arguments);
+      }
+
+      LayerManager.prototype.initialize = function() {
+        return this.layers = [];
+      };
 
       LayerManager.prototype.addLayer = function(contentView) {
         var layer;
@@ -781,16 +779,16 @@ window.require.define({"views/layer_manager": function(exports, require, module)
       LayerManager.prototype.render = function() {
         var i, _ref, _results;
         _results = [];
-        for (i = 0, _ref = this.layers.length; 0 <= _ref ? i <= _ref : i >= _ref; 0 <= _ref ? i++ : i--) {
+        for (i = 0, _ref = this.layers.length - 1; 0 <= _ref ? i <= _ref : i >= _ref; 0 <= _ref ? i++ : i--) {
           this.layers[i].render();
-          _results.push(this.layers[i].el.appendTo(this.$el));
+          _results.push(this.layers[i].$el.appendTo(this.$el));
         }
         return _results;
       };
 
       return LayerManager;
 
-    })();
+    })(Backbone.View);
 
   }).call(this);
   
@@ -798,35 +796,36 @@ window.require.define({"views/layer_manager": function(exports, require, module)
 
 window.require.define({"views/layer_view": function(exports, require, module) {
   (function() {
-    var Layer,
-      __hasProp = Object.prototype.hasOwnProperty,
+    var __hasProp = Object.prototype.hasOwnProperty,
       __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
 
-    Layer = (function(_super) {
+    exports.LayerView = (function(_super) {
 
-      __extends(Layer, _super);
+      __extends(LayerView, _super);
 
-      function Layer() {
-        Layer.__super__.constructor.apply(this, arguments);
+      function LayerView() {
+        LayerView.__super__.constructor.apply(this, arguments);
       }
 
-      Layer.prototype.attributes = {
+      LayerView.prototype.attributes = {
         "class": "layer"
       };
 
-      Layer.prototype.events = {
+      LayerView.prototype.events = {
         "click .close": "close"
       };
 
-      Layer.prototype.initialize = function() {
+      LayerView.prototype.initialize = function() {
         return this.contentView = this.options.contentView;
       };
 
-      Layer.prototype.render = function() {
+      LayerView.prototype.render = function() {
         return this.$el.html(this.contentView.render());
       };
 
-      return Layer;
+      LayerView.prototype.close = function() {};
+
+      return LayerView;
 
     })(Backbone.View);
 

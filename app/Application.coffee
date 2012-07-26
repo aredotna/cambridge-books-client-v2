@@ -2,7 +2,8 @@
 {Channel} = require('models/channel')
 {Block} = require('models/block')
 {LayerManager} = require('views/layer_manager')
-{ChannelView} = require('view/channel')
+{LayerView} = require('views/layer_view')
+{ChannelView} = require('views/channel_view')
 
 class exports.Application
 
@@ -12,7 +13,6 @@ class exports.Application
 
     @options = {}
     _.extend(@options, options)
-
     @layerManager = new LayerManager
     	el: $('#layers')
 
@@ -20,9 +20,9 @@ class exports.Application
     Backbone.history.start()
 
   addChannel: (slug)->
-    channel = new Channel
+    channel = new Channel null,
       slug: slug
-    view = new ChannelView(channel)
+    view = new ChannelView(model:channel)
     @addLayer(view)
 
   addBlock: (id)->
@@ -32,9 +32,7 @@ class exports.Application
     @addLayer(view)
 
   addLayer: (content)->
-    layerView = new LayerView
-      content: content
-    @layerManager.addLayer(layerView)
+    @layerManager.addLayer(content)
 
   setView: (view)->
     @contentView = view

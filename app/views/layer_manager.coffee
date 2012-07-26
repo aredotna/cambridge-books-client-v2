@@ -1,8 +1,9 @@
 {LayerView} = require('views/layer_view')
 
-class exports.LayerManager
+class exports.LayerManager extends Backbone.View
 
 	initialize: ->
+		@layers = []
 
 	addLayer: (contentView)->
 		layer = new LayerView
@@ -13,6 +14,6 @@ class exports.LayerManager
 		@render()
 
 	render: ->
-		for i in [0..@layers.length]
+		for i in [0..@layers.length-1]
 			@layers[i].render() 
-			@layers[i].el.appendTo(@$el)
+			@layers[i].$el.appendTo(@$el)

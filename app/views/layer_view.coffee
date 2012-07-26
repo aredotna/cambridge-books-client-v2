@@ -1,4 +1,4 @@
-class Layer extends Backbone.View
+class exports.LayerView extends Backbone.View
 
 	attributes:
 		class: "layer"
@@ -11,3 +11,5 @@ class Layer extends Backbone.View
 
 	render: ->
 		@$el.html @contentView.render()
+
+	close: ->
