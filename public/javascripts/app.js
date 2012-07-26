@@ -820,7 +820,12 @@ window.require.define({"views/layer_view": function(exports, require, module) {
       };
 
       LayerView.prototype.render = function() {
-        return this.$el.html(this.contentView.render());
+        this.$el.html(this.contentView.render());
+        return this.$el.css({
+          top: this.options.depth * 50,
+          zIndex: this.options.depth,
+          backgroundColor: "hsl(250, 100%, " + (this.options.depth * 20 + 30) + "%)"
+        });
       };
 
       LayerView.prototype.close = function() {};
@@ -992,7 +997,7 @@ window.require.define({"views/templates/channel": function(exports, require, mod
       (function() {
         var block, _i, _len, _ref;
       
-        __out.push('<ul id="channelView">\n\t');
+        __out.push('<ul class="channelView">\n\t');
       
         _ref = this.blocks;
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
@@ -1033,7 +1038,7 @@ window.require.define({"views/templates/channel": function(exports, require, mod
             __out.push(block.title);
             __out.push('\n\t\t        ');
           }
-          __out.push('\n\n\n\t\t\t</div>\n\t\t</li>\n\t');
+          __out.push('\n\t\t\t</div>\n\t\t</li>\n\t');
         }
       
         __out.push('\n</ul>');

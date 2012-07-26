@@ -179,6 +179,18 @@ h1 {
   color: #eee;
   font-style: italic;
 }
+.layer {
+  width: 100%;
+  left: 0px;
+  position: absolute;
+  background-color: #00f;
+  box-sizing: border-box;
+  padding-top: 20px;
+  min-height: 1000px;
+}
+.channelView {
+  overflow: auto;
+}
 .block {
   cursor: pointer;
   background-color: #fff;
@@ -187,7 +199,7 @@ h1 {
   float: left;
   text-align: center;
   box-sizing: border-box;
-  border: 5px solid #00f;
+  margin: 5px;
   color: #f00;
   letter-spacing: 3px;
   height: 150px;

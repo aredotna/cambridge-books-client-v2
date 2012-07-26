@@ -27,8 +27,6 @@
 		          <!-- CHANNEL -->
 		          <%- block.title %>
 		        <% end %>
-
-
 			</div>
 		</li>
 	<% end %>
