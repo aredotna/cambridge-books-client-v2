@@ -76,9 +76,11 @@
 
 window.require.define({"Application": function(exports, require, module) {
   (function() {
-    var MainRouter;
+    var LayerManager, MainRouter;
 
     MainRouter = require('routers/main_router').MainRouter;
+
+    LayerManager = require('views/layer_manager').LayerManager;
 
     exports.Application = (function() {
 
@@ -89,8 +91,31 @@ window.require.define({"Application": function(exports, require, module) {
         this.routers = {};
         this.channels = {};
         this.rootChannel = "cambridge-book--2";
+        this.layerManager = new layerManager({
+          el: $('#layers')
+        });
         this.routers.main = new MainRouter();
         return Backbone.history.start();
+      };
+
+      Application.prototype.addChannel = function(channel) {
+        var view;
+        view = new ChannelView(channel);
+        return this.addLayer(view);
+      };
+
+      Application.prototype.addBlock = function(block) {
+        var view;
+        view = new BlockView(block);
+        return this.addLayer(view);
+      };
+
+      Application.prototype.addLayer = function(content) {
+        var layerView;
+        layerView = new LayerView({
+          content: content
+        });
+        return this.layerManager.addLayer(layerView);
       };
 
       Application.prototype.setView = function(view) {
@@ -662,8 +687,19 @@ window.require.define({"views/channel_view": function(exports, require, module) 
       };
 
       ChannelView.prototype.showBlock = function(e) {
-        var block;
-        block = this.model.at(e.target.id);
+        var block, channel, id;
+        id = parseInt(e.target.id);
+        block = this.model.where({
+          id: id
+        })[0];
+        if (block.get('block_type') === "Channel") {
+          channel = new Channel({
+            slug: block.get('slug')
+          });
+          app.addChannel(channel);
+        } else {
+          app.addBlock(block);
+        }
         return false;
       };
 
@@ -707,6 +743,46 @@ window.require.define({"views/home_view": function(exports, require, module) {
       return HomeView;
 
     })(Backbone.View);
+
+  }).call(this);
+  
+}});
+
+window.require.define({"views/layer_manager": function(exports, require, module) {
+  (function() {
+    var LayerView;
+
+    LayerView = require('views/layer_view').LayerView;
+
+    exports.LayerManager = (function() {
+
+      function LayerManager() {}
+
+      LayerManager.prototype.initialize = function() {};
+
+      LayerManager.prototype.addLayer = function(content) {
+        var layer;
+        layer = new LayerView({
+          content: content,
+          depth: this.layers.length
+        });
+        this.layers.push(layer);
+        return this.render();
+      };
+
+      LayerManager.prototype.render = function() {
+        var i, _ref, _results;
+        _results = [];
+        for (i = 0, _ref = this.layers.length; 0 <= _ref ? i <= _ref : i >= _ref; 0 <= _ref ? i++ : i--) {
+          this.layers[i].render();
+          _results.push(this.layers[i].el.appendTo(this.$el));
+        }
+        return _results;
+      };
+
+      return LayerManager;
+
+    })();
 
   }).call(this);
   

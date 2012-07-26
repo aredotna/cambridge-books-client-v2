@@ -10,7 +10,15 @@ class exports.ChannelView extends Backbone.View
 		@model.bind "add", @render, @
 
 	showBlock: (e)->
-		block = @model.at(e.target.id)
+		id = parseInt(e.target.id)
+		block = @model.where(id:id)[0]
+
+		if block.get('block_type') is "Channel"
+			channel = new Channel
+				slug: block.get('slug')
+			app.addChannel(channel)
+		else 
+			app.addBlock(block)
 		false
 
 	render: ->
