@@ -15,10 +15,9 @@ class exports.ChannelView extends Backbone.View
 
 		if block.get('block_type') is "Channel"
 			channel = new Channel
-				slug: block.get('slug')
-			app.addChannel(channel)
+			app.addChannel(block.get('slug'))
 		else 
-			app.addBlock(block)
+			app.addBlock(block.id)
 		false
 
 	render: ->

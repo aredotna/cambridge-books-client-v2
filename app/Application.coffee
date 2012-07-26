@@ -1,25 +1,29 @@
 {MainRouter} = require('routers/main_router')
 {LayerManager} = require('views/layer_manager')
-
+{Channel} = require('models/channel')
+{Block} = require('models/block')
 
 class exports.Application
 
 	initialize: ->
-		
+
 		@rootChannel = "cambridge-book--2"
 
-		@layerManager = new layerManager
+		@layerManager = new LayerManager
 			el: $('#layers')
 
 		@router = new MainRouter()
 		Backbone.history.start()
 
-
-	addChannel: (channel)->
+	addChannel: (slug)->
+		channel = new Channel
+			slug: slug
 		view = new ChannelView(channel)
 		@addLayer(view)
 
-	addBlock: (block)->
+	addBlock: (id)->
+		block = new Block
+			id: id
 		view = new BlockView(block)
 		@addLayer(view)
 

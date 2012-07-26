@@ -1,7 +1,7 @@
 class Layer extends Backbone.View
 
 	attributes:
-		class: layer
+		class: "layer"
 
 	events:
 		"click .close": "close"
