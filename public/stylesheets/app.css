@@ -114,7 +114,7 @@ body {
   min-height: 100%;
   font-size: 15px;
   color: #666;
-  background: #00f;
+  background: #00f url("../images/cb-white.png") center center no-repeat;
   font-family: "KievitPro", "ff-kievit-web-pro-1", "ff-kievit-web-pro-2", "Helvetica Neue", Arial, Helvetica, sans-serif;
 }
 h1,
@@ -199,6 +199,7 @@ h1 {
   padding: 20px;
   float: left;
   text-align: center;
+  display: table;
   box-sizing: border-box;
   margin: 5px;
   color: #f00;
@@ -206,11 +207,8 @@ h1 {
   height: 150px;
   width: 150px;
 }
-.block img {
-  max-height: 100%;
-  max-width: 100%;
-}
 .block .wrapper {
+  display: table-cell;
   vertical-align: middle;
   pointer-events: none;
 }
