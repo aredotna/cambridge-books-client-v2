@@ -773,7 +773,7 @@ window.require.define({"views/layer_manager": function(exports, require, module)
           contentView: contentView,
           depth: this.layers.length
         });
-        this.bind('layer:close', this.removeLayer, this);
+        layer.bind('layer:close', this.removeLayer, this);
         this.layers.push(layer);
         return this.render();
       };
@@ -789,7 +789,20 @@ window.require.define({"views/layer_manager": function(exports, require, module)
         return _results;
       };
 
-      LayerManager.prototype.removeLayer = function(layer) {};
+      LayerManager.prototype.removeLayer = function(layer) {
+        var _i, _layer, _len, _ref, _results;
+        _ref = this.layers;
+        _results = [];
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          _layer = _ref[_i];
+          if (_layer === layer) {
+            _results.push(this.layers.splice(this.layers.indexOf(_layer), 1));
+          } else {
+            _results.push(void 0);
+          }
+        }
+        return _results;
+      };
 
       return LayerManager;
 
@@ -1012,48 +1025,52 @@ window.require.define({"views/templates/channel": function(exports, require, mod
       (function() {
         var block, _i, _len, _ref;
       
-        __out.push('<ul class="channelView">\n\t');
+        __out.push('<ul class="channelView">\n  ');
       
         _ref = this.blocks;
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
           block = _ref[_i];
-          __out.push('\n\t\t<li id="');
-          __out.push(block.id);
-          __out.push('" class="block ');
-          __out.push(block.block_class);
-          __out.push('">\n\t\t\t<div class="wrapper">\n\n\t\t        ');
-          if (block.block_type === 'Image') {
-            __out.push('\n\t\t          <!-- IMAGE -->\n\t\t          <img src="');
-            __out.push(__sanitize(block.image.display));
-            __out.push('" alt="');
-            __out.push(__sanitize(block.title));
-            __out.push('" />\n\t\t      \n\t\t        ');
-          } else if (block.block_type === 'Link') {
-            __out.push('\n\t\t          <!-- LINK -->\n\t\t          ');
-            if (block.image.display) {
-              __out.push('\n\t\t              <img src="');
+          __out.push('\n    ');
+          if (block.block_type !== "Channel" || block.published === true) {
+            __out.push('\n      <li id="');
+            __out.push(block.id);
+            __out.push('" class="block ');
+            __out.push(block.block_type);
+            __out.push('">\n        <div class="wrapper">\n\n              ');
+            if (block.block_type === 'Image') {
+              __out.push('\n                <!-- IMAGE -->\n                <img src="');
               __out.push(__sanitize(block.image.display));
               __out.push('" alt="');
               __out.push(__sanitize(block.title));
-              __out.push('" />\n\t\t          ');
-            } else {
-              __out.push('\n\t\t            <p>\n\t\t              <a href="');
-              __out.push(__sanitize(block.link_url));
-              __out.push('" class="external url" target="_blank">');
-              __out.push(__sanitize(block.link_url));
-              __out.push('</a>\n\t\t            </p>\n\t\t          ');
+              __out.push('" />\n            \n              ');
+            } else if (block.block_type === 'Link') {
+              __out.push('\n                <!-- LINK -->\n                ');
+              if (block.image.display) {
+                __out.push('\n                    <img src="');
+                __out.push(__sanitize(block.image.display));
+                __out.push('" alt="');
+                __out.push(__sanitize(block.title));
+                __out.push('" />\n                ');
+              } else {
+                __out.push('\n                  <p>\n                    <a href="');
+                __out.push(__sanitize(block.link_url));
+                __out.push('" class="external url" target="_blank">');
+                __out.push(__sanitize(block.link_url));
+                __out.push('</a>\n                  </p>\n                ');
+              }
+              __out.push('\n            \n              ');
+            } else if (block.block_type === 'Text') {
+              __out.push('\n                <!-- TEXT -->\n                <div class="content">\n                  ');
+              __out.push(block.content);
+              __out.push('\n                </div>\n\n              ');
+            } else if (block.block_type === 'Channel') {
+              __out.push('\n                  <!-- CHANNEL -->\n                  ');
+              __out.push(block.title);
+              __out.push('\n              ');
             }
-            __out.push('\n\t\t      \n\t\t        ');
-          } else if (block.block_type === 'Text') {
-            __out.push('\n\t\t          <!-- TEXT -->\n\t\t          <div class="content">\n\t\t            ');
-            __out.push(block.content);
-            __out.push('\n\t\t          </div>\n\n\t\t        ');
-          } else if (block.block_type === 'Channel' && block.published === true) {
-            __out.push('\n\t\t          <!-- CHANNEL -->\n\t\t          ');
-            __out.push(block.title);
-            __out.push('\n\t\t        ');
+            __out.push('\n        </div>\n      </li>\n    ');
           }
-          __out.push('\n\t\t\t</div>\n\t\t</li>\n\t');
+          __out.push('\n  ');
         }
       
         __out.push('\n</ul>');

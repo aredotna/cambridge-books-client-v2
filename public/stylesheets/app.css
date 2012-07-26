@@ -186,8 +186,10 @@ h1 {
 }
 .layer .close {
   position: absolute;
-  top: 10px;
+  top: 5px;
   left: 10px;
+  color: #c8c8ff;
+  font-size: 18px;
 }
 .channelView {
   overflow: auto;
