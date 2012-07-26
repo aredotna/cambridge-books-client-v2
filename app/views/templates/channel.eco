@@ -1,33 +1,35 @@
 <ul class="channelView">
-	<% for block in @blocks: %>
-		<li id="<%- block.id %>" class="block <%- block.block_class %>">
-			<div class="wrapper">
+  <% for block in @blocks: %>
+    <% if block.block_type isnt "Channel" or block.published is true: %>
+      <li id="<%- block.id %>" class="block <%- block.block_type %>">
+        <div class="wrapper">
 
-		        <% if block.block_type is 'Image': %>
-		          <!-- IMAGE -->
-		          <img src="<%= block.image.display %>" alt="<%= block.title %>" />
-		      
-		        <% else if block.block_type is 'Link': %>
-		          <!-- LINK -->
-		          <% if block.image.display: %>
-		              <img src="<%= block.image.display %>" alt="<%= block.title %>" />
-		          <% else: %>
-		            <p>
-		              <a href="<%= block.link_url %>" class="external url" target="_blank"><%= block.link_url %></a>
-		            </p>
-		          <% end %>
-		      
-		        <% else if block.block_type is 'Text': %>
-		          <!-- TEXT -->
-		          <div class="content">
-		            <%- block.content %>
-		          </div>
+              <% if block.block_type is 'Image': %>
+                <!-- IMAGE -->
+                <img src="<%= block.image.display %>" alt="<%= block.title %>" />
+            
+              <% else if block.block_type is 'Link': %>
+                <!-- LINK -->
+                <% if block.image.display: %>
+                    <img src="<%= block.image.display %>" alt="<%= block.title %>" />
+                <% else: %>
+                  <p>
+                    <a href="<%= block.link_url %>" class="external url" target="_blank"><%= block.link_url %></a>
+                  </p>
+                <% end %>
+            
+              <% else if block.block_type is 'Text': %>
+                <!-- TEXT -->
+                <div class="content">
+                  <%- block.content %>
+                </div>
 
-		        <% else if block.block_type is 'Channel' and block.published is true: %>
-		          <!-- CHANNEL -->
-		          <%- block.title %>
-		        <% end %>
-			</div>
-		</li>
-	<% end %>
+              <% else if block.block_type is 'Channel': %>
+                  <!-- CHANNEL -->
+                  <%- block.title %>
+              <% end %>
+        </div>
+      </li>
+    <% end %>
+  <% end %>
 </ul>
