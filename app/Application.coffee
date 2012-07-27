@@ -33,11 +33,3 @@ class exports.Application
 
   addLayer: (content)->
     @layerManager.addLayer(content)
-
-  setView: (view)->
-    @contentView = view
-    @contentView.render()
-    $('#content').html('').append(@contentView.el)
-
-
-
