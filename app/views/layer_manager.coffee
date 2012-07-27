@@ -15,6 +15,10 @@ class exports.LayerManager extends Backbone.View
 
 		@layers.push(layer)
 		@render()
+		
+		$('body').animate
+			scrollTop: @layers[@layers.length-1].$el.offset().top
+
 
 	render: ->
 		@$el.html()
