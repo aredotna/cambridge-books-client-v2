@@ -775,7 +775,10 @@ window.require.define({"views/layer_manager": function(exports, require, module)
         });
         layer.bind('layer:close', this.removeLayer, this);
         this.layers.push(layer);
-        return this.render();
+        this.render();
+        return $('body').animate({
+          scrollTop: this.layers[this.layers.length - 1].$el.offset().top
+        });
       };
 
       LayerManager.prototype.render = function() {
@@ -849,13 +852,17 @@ window.require.define({"views/layer_view": function(exports, require, module) {
         return this.$el.css({
           top: this.options.depth * 50,
           zIndex: this.options.depth,
-          backgroundColor: "hsl(250, 100%, " + (this.options.depth * 20 + 30) + "%)"
+          backgroundColor: "hsl(250, 100%, " + this.lightness() + "%)"
         });
       };
 
       LayerView.prototype.close = function() {
         this.$el.remove();
         return this.trigger('layer:close', this);
+      };
+
+      LayerView.prototype.lightness = function() {
+        return (this.options.depth * 20 + 30) % 100;
       };
 
       return LayerView;
