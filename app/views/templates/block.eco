@@ -1,0 +1,28 @@
+<div class="block">
+
+  <% if @block.block_type is 'Image': %>
+    <!-- IMAGE -->
+    <img src="<%= @block.image.display %>" alt="<%= @block.title %>" />
+
+  <% else if @block.block_type is 'Link': %>
+    <!-- LINK -->
+    <% if @block.image.display: %>
+        <img src="<%= @block.image.display %>" alt="<%= @block.title %>" />
+    <% else: %>
+      <p>
+        <a href="<%= @block.link_url %>" class="external url" target="_blank"><%= @block.link_url %></a>
+      </p>
+    <% end %>
+
+  <% else if @block.block_type is 'Text': %>
+    <!-- TEXT -->
+    <div class="content">
+      <%- @block.content %>
+    </div>
+
+  <% else if @block.block_type is 'Channel': %>
+      <!-- CHANNEL -->
+      <%- @block.title %>
+  <% end %>
+
+</div>
