@@ -18,9 +18,9 @@ class exports.LayerView extends Backbone.View
 		@delegateEvents()
 		@$el.append @contentView.el
 		@$el.css
-			top: @options.depth * 50
+			top: @options.depth * 35
 			zIndex: @options.depth
-			backgroundColor: "hsl(250, 100%, "+@lightness()+"%)"
+			backgroundColor: 'white'
 
 	name: ->
 		@contentView.model.options.slug
@@ -30,7 +30,7 @@ class exports.LayerView extends Backbone.View
 		@trigger('layer:close', @)
 
 	lightness:->
-		(@options.depth * 20 + 30) % 100
+		(@options.depth * 20) % 100
 
 
 
