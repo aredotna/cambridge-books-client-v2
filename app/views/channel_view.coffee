@@ -15,7 +15,7 @@ class exports.ChannelView extends Backbone.View
     block = @model.where(id:id)[0]
 
     if block.get('block_type') is "Channel"
-      app.addChannel(block.get('slug'))
+      app.openChannel(block.get('slug'))
     else 
       app.addBlock(block.id)
     false

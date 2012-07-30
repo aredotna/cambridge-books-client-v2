@@ -29,3 +29,9 @@ class exports.LayerManager extends Backbone.View
 		@layers.forEach (_layer)=>
 			if _layer is layer 
 				@layers.splice @layers.indexOf(_layer), 1
+		app.resetUrl()
+
+	currentPath: ->
+		slugs = @layers.map (layer)=>
+			layer.name()
+		slugs.join('/')

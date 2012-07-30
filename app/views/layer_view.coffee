@@ -22,6 +22,9 @@ class exports.LayerView extends Backbone.View
 			zIndex: @options.depth
 			backgroundColor: "hsl(250, 100%, "+@lightness()+"%)"
 
+	name: ->
+		@contentView.model.options.slug
+
 	close: ->
 		@$el.remove()
 		@trigger('layer:close', @)

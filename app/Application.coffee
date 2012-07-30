@@ -10,7 +10,6 @@ class exports.Application
   defaults: {}
 
   initialize: (options)->
-
     @options = {}
     _.extend(@options, options)
     @layerManager = new LayerManager
@@ -18,6 +17,9 @@ class exports.Application
 
     @router = new MainRouter()
     Backbone.history.start()
+
+  openChannel: (slug)->
+    @router.navigateRelative(slug)
 
   addChannel: (slug)->
     channel = new Channel null,
@@ -33,3 +35,6 @@ class exports.Application
 
   addLayer: (content)->
     @layerManager.addLayer(content)
+
+  resetUrl: ->
+    @router.navigate @layerManager.currentPath()

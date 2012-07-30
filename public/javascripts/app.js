@@ -106,6 +106,10 @@ window.require.define({"Application": function(exports, require, module) {
         return Backbone.history.start();
       };
 
+      Application.prototype.openChannel = function(slug) {
+        return this.router.navigateRelative(slug);
+      };
+
       Application.prototype.addChannel = function(slug) {
         var channel, view;
         channel = new Channel(null, {
@@ -130,10 +134,8 @@ window.require.define({"Application": function(exports, require, module) {
         return this.layerManager.addLayer(content);
       };
 
-      Application.prototype.setView = function(view) {
-        this.contentView = view;
-        this.contentView.render();
-        return $('#content').html('').append(this.contentView.el);
+      Application.prototype.resetUrl = function() {
+        return this.router.navigate(this.layerManager.currentPath());
       };
 
       return Application;
@@ -315,7 +317,7 @@ window.require.define({"models/channel": function(exports, require, module) {
       };
 
       Channel.prototype.initialize = function(items, options) {
-        this.options = _.extend(this.defaults, options);
+        this.options = _.extend({}, this.defaults, options);
         if (this.options.autoload) return this.loadBlocks(this.options.depth);
       };
 
@@ -483,7 +485,7 @@ window.require.define({"routers/main_router": function(exports, require, module)
 
       MainRouter.prototype.routes = {
         "": "index",
-        ":slug": "channel"
+        "*channels": "channel"
       };
 
       MainRouter.prototype.index = function() {
@@ -491,7 +493,18 @@ window.require.define({"routers/main_router": function(exports, require, module)
       };
 
       MainRouter.prototype.channel = function(slug) {
-        return app.addChannel(slug);
+        var channels;
+        channels = slug.split('/');
+        return channels.forEach(function(channel) {
+          return app.addChannel(channel);
+        });
+      };
+
+      MainRouter.prototype.navigateRelative = function(slug) {
+        var path;
+        path = Backbone.history.fragment;
+        path = path + '/' + slug;
+        return this.navigate(path, true);
       };
 
       return MainRouter;
@@ -694,7 +707,7 @@ window.require.define({"views/channel_view": function(exports, require, module) 
           id: id
         })[0];
         if (block.get('block_type') === "Channel") {
-          app.addChannel(block.get('slug'));
+          app.openChannel(block.get('slug'));
         } else {
           app.addBlock(block.id);
         }
@@ -782,29 +795,31 @@ window.require.define({"views/layer_manager": function(exports, require, module)
       };
 
       LayerManager.prototype.render = function() {
-        var i, _ref, _results;
-        this.$el.html();
-        _results = [];
-        for (i = 0, _ref = this.layers.length - 1; 0 <= _ref ? i <= _ref : i >= _ref; 0 <= _ref ? i++ : i--) {
-          this.layers[i].render();
-          _results.push(this.$el.append(this.layers[i].el));
-        }
-        return _results;
+        var _this = this;
+        this.$el.html('');
+        return this.layers.forEach(function(layer) {
+          layer.render();
+          return _this.$el.append(layer.el);
+        });
       };
 
       LayerManager.prototype.removeLayer = function(layer) {
-        var _i, _layer, _len, _ref, _results;
-        _ref = this.layers;
-        _results = [];
-        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-          _layer = _ref[_i];
+        var _this = this;
+        this.layers.forEach(function(_layer) {
           if (_layer === layer) {
-            _results.push(this.layers.splice(this.layers.indexOf(_layer), 1));
-          } else {
-            _results.push(void 0);
+            return _this.layers.splice(_this.layers.indexOf(_layer), 1);
           }
-        }
-        return _results;
+        });
+        return app.resetUrl();
+      };
+
+      LayerManager.prototype.currentPath = function() {
+        var slugs,
+          _this = this;
+        slugs = this.layers.map(function(layer) {
+          return layer.name();
+        });
+        return slugs.join('/');
       };
 
       return LayerManager;
@@ -854,6 +869,10 @@ window.require.define({"views/layer_view": function(exports, require, module) {
           zIndex: this.options.depth,
           backgroundColor: "hsl(250, 100%, " + this.lightness() + "%)"
         });
+      };
+
+      LayerView.prototype.name = function() {
+        return this.contentView.model.options.slug;
       };
 
       LayerView.prototype.close = function() {
