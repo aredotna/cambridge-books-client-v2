@@ -9,13 +9,15 @@ class exports.MainRouter extends Backbone.Router
 
   index: ->
     app.addChannel app.options.rootChannel
-      
+    
   channel: (slug)->
     channels = slug.split('/')
+    app.addChannel app.options.rootChannel
     channels.forEach (channel)->
       app.addChannel channel
 
   navigateRelative: (slug)->
     path = Backbone.history.fragment
     path = path + '/' + slug
-    @navigate path, true
+    @navigate path
+    app.addChannel(slug)
