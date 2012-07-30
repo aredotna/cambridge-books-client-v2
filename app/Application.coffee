@@ -28,9 +28,8 @@ class exports.Application
     view = new ChannelView(model:channel)
     @addLayer(view)
 
-  addBlock: (id)->
-    block = new Block
-      id: id
+  addBlock: (block)->
+    block = new Block(block)
     view = new BlockView(model:block)
     @addLayer(view)
 
