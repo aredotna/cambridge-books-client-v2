@@ -1,5 +1,5 @@
 <p class="title"><%- @title %></p>
-<ul class="channelView">
+<ul class="channelView <%- @type %>">
   <% for block in @blocks: %>
     <% if block.block_type isnt "Channel" or block.published is true: %>
       <li id="<%- block.id %>" class="block <%- block.block_type %>">

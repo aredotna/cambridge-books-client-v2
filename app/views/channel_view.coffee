@@ -24,5 +24,13 @@ class exports.ChannelView extends Backbone.View
     @$el.html @template
       blocks: @model.toJSON()
       title: @model.title
+      type: @type()
     @delegateEvents()
+
+  type: ->
+    type="content"
+    @model.each (block) ->
+      if block.get('block_type') is "Channel"
+        type = "menu"
+    type
 
