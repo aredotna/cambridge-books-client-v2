@@ -34,4 +34,6 @@ class exports.LayerManager extends Backbone.View
 	currentPath: ->
 		slugs = @layers.map (layer)=>
 			layer.name()
+		slugs = slugs.slice(0)
+		slugs.unshift()
 		slugs.join('/')
