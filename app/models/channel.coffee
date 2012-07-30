@@ -20,6 +20,7 @@ class exports.Channel extends Backbone.Collection
 		@fetch
 			success: (channel, blocks)=>
 				@reset()
+				@title = blocks.title
 				@add(blocks.blocks)
 				@add(blocks.channels)
 				if depth

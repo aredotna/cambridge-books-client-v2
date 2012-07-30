@@ -21,7 +21,8 @@ class exports.ChannelView extends Backbone.View
     false
 
   render: ->
-    @$el.html @template 
+    @$el.html @template
       blocks: @model.toJSON()
+      title: @model.title
     @delegateEvents()
 
