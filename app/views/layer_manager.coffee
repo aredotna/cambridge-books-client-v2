@@ -19,17 +19,13 @@ class exports.LayerManager extends Backbone.View
 		$('body').animate
 			scrollTop: @layers[@layers.length-1].$el.offset().top
 
-
 	render: ->
-		@$el.html()
-		for i in [0..@layers.length-1]
-			@layers[i].render() 
-			@$el.append(@layers[i].el)
+		@$el.html('')
+		@layers.forEach (layer)=>
+			layer.render() 
+			@$el.append(layer.el)
 
 	removeLayer: (layer)->
-		for _layer in @layers
+		@layers.forEach (_layer)=>
 			if _layer is layer 
 				@layers.splice @layers.indexOf(_layer), 1
-
-
-
