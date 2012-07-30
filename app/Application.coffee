@@ -4,6 +4,7 @@
 {LayerManager} = require('views/layer_manager')
 {LayerView} = require('views/layer_view')
 {ChannelView} = require('views/channel_view')
+{BlockView} = require('views/block_view')
 
 class exports.Application
 
@@ -30,7 +31,7 @@ class exports.Application
   addBlock: (id)->
     block = new Block
       id: id
-    view = new BlockView(block)
+    view = new BlockView(model:block)
     @addLayer(view)
 
   addLayer: (content)->
