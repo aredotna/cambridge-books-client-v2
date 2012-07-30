@@ -16,7 +16,7 @@ class exports.LayerManager extends Backbone.View
 		@layers.push(layer)
 		@render()
 		
-		$('body').animate
+		$('body').clearQueue().animate
 			scrollTop: @layers[@layers.length-1].$el.offset().top
 
 	render: ->
@@ -35,5 +35,8 @@ class exports.LayerManager extends Backbone.View
 		slugs = @layers.map (layer)=>
 			layer.name()
 		slugs = slugs.slice(0)
-		slugs.unshift()
+		slugs.shift()
 		slugs.join('/')
+
+	reset: ->
+		@layers = []
