@@ -12,7 +12,7 @@ class exports.Channel extends Backbone.Collection
 		"http://arena-cedar.herokuapp.com/api/v1/channels/#{@options.slug}.json?callback=?"
 
 	initialize: (items, options)->
-		@options = _.extend(@defaults, options)
+		@options = _.extend({}, @defaults, options)
 		if @options.autoload
 			@loadBlocks(@options.depth)
 
