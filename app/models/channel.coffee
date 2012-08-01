@@ -20,12 +20,16 @@ class exports.Channel extends Backbone.Collection
 		@fetch
 			success: (channel, blocks)=>
 				@reset()
-				@title = blocks.title
 				@add(blocks.blocks)
 				@add(blocks.channels)
+				@attributes = blocks
 				if depth
 					@each (block)->
 						if block.get('block_type') is "Channel" and block.get('published')
 							@channel = new Channel null, 
 								slug:block.get('slug')
 								depth: channel.options.depth - 1
+
+	toJSON: ->
+		blocks = {blocks:super()}
+		_.extend({}, @attributes, blocks)
