@@ -8,6 +8,11 @@ class exports.Channel extends Backbone.Collection
 		depth: 0
 		autoload: true
 
+	comparator:(block) ->
+		if block.get('connections')
+			connection = _.find block.get('connections'), (connection) => connection.channel_id is @attributes.id
+			connection.position
+
 	url: ->
 		"http://arena-cedar.herokuapp.com/api/v1/channels/#{@options.slug}.json?callback=?"
 
@@ -20,9 +25,9 @@ class exports.Channel extends Backbone.Collection
 		@fetch
 			success: (channel, blocks)=>
 				@reset()
+				@attributes = _.clone blocks
 				@add(blocks.blocks)
 				@add(blocks.channels)
-				@attributes = blocks
 				if depth
 					@each (block)->
 						if block.get('block_type') is "Channel" and block.get('published')
