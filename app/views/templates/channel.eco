@@ -8,7 +8,7 @@
               <% if block.block_type is 'Image': %>
                 <!-- IMAGE -->
                 <img src="<%= block.image.display %>" alt="<%= block.title %>" />
-            
+                <div class="description h3"><%- block.title %></div>
               <% else if block.block_type is 'Link': %>
                 <!-- LINK -->
                 <% if block.image.display: %>
@@ -21,14 +21,15 @@
             
               <% else if block.block_type is 'Text': %>
                 <!-- TEXT -->
-                <div class="content">
+                <div class="content h3">
                   <%- block.content %>
                 </div>
 
               <% else if block.block_type is 'Channel': %>
                   <!-- CHANNEL -->
-                  <%- block.title.toLowerCase() %>
+                  <span class="h2"><%- block.title.toLowerCase() %></span>
               <% end %>
+
         </div>
       </li>
     <% end %>
