@@ -8,10 +8,12 @@ class exports.OverlayView extends Backbone.View
 	open: (contentView) ->
 		@contentView = contentView
 		@render()
+		$('body').css 'overflow', 'hidden'
 		@$el.show()
 
 	close: ->
 		@$el.hide()
+		$('body').css 'overflow', 'auto'
 
 	render: ->
 		@contentView.render()
