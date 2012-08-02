@@ -1,5 +1,5 @@
-<div class="block">
-
+<div class="block <%- @block.block_type %>">
+  <div class="title h1"><p><%- @block.title %></p></div>
   <% if @block.block_type is 'Image': %>
     <!-- IMAGE -->
     <img src="<%= @block.image.display %>" alt="<%= @block.title %>" />
@@ -24,5 +24,6 @@
       <!-- CHANNEL -->
       <%- @block.title %>
   <% end %>
+  <div class="description"><%- @block.content %></div>
 
 </div>

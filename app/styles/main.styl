@@ -1,41 +1,59 @@
-a, a:visited
-  color #F95A5A
-  text-decoration none
-
-a:hover
-  color #665248
-
-#home-view
-  width 600px
-  height 200px
-  margin 20px auto
-
-  #content
-    background #FFF
-    padding 20px
-    -webkit-border-radius 4px
-    -moz-border-radius 4px
-    border-radius 4px
-
-
-
 html
   min-height 100%
+  text-rendering optimizeLegibility
 
 body
   min-height 100%
-  background: blue url('../images/cb-white.png') center center no-repeat;
+  background blue url('../images/cb-white.png') center center no-repeat
   font  16px "Times New Roman", Times, serif
+
+
+
+::selection
+  background-color rgba(0,0,0,1)
+  color #fff
+  opacity 1
+  outline 3px solid blue
+
+::-moz-selection 
+  background-color #000
+  color #fff
+  outline 3px solid blue
+
+
 
 p
   margin 0 0 1.5em
 
-a:focus, a:hover
-  
-a
-  color #F95A5A
+a, a:hover, a:active, a:visited
+  color inherit
   text-decoration none
   cursor pointer
+  &:hover
+    color red
+
+
+
+h1, .h1
+  font 13px/16px arial, sans-serif
+  letter-spacing 3px
+
+h2, .h2
+  font 36px/40px "Times News Roman", Times, serif
+
+h3, .h3
+  font 13px/16px "Times New Roman", Times, serif
+  letter-spacing 3px
+
+h4, .h4
+
+h5, .h5
+
+h6, .h6
+
+
+  
+
 
 #content
   margin 0 auto
@@ -43,21 +61,18 @@ a
   overflow auto
 
 .layer
-  width: 100%;
-  left: 0px;
+  width 100%
+  left 0px
   position absolute
-  background-color: blue;
-  box-sizing: border-box
-  padding: 20px 40px
+  background-color blue
+  box-sizing border-box
+  padding 20px 40px
   min-height 1000px
   box-shadow 0px 0px 24px 5px rgba(0, 0, 0, .3)
   .title
     text-align center
     margin 0
     margin-bottom 60px
-    font-family arial
-    letter-spacing 3px
-    font-size 13px
   .close
     position absolute
     top 14px
@@ -69,38 +84,77 @@ a
 .channelView 
   overflow auto
 
-.menu .block 
-  font-size 36px
-  height auto
-  width auto
-  padding 0px 20px
-  float none
-  text-transform capitalize
-
-.menu .block.Image
-  padding-bottom 20px
-  display none
+.menu 
+  .block 
+    height auto
+    width auto
+    padding 0px 20px
+    float none
+    text-transform capitalize
+    &.Image
+      padding-bottom 20px
+      display none
 
 .block.Text
-  letter-spacing: 1px;
-  text-align: left;
-  float: none;
-  width: 440px;
+  letter-spacing 1px
+  text-align left
+  float none
+  width 440px
 
 .block
   cursor pointer
   padding 20px
   float left
   display table
-  text-align: center;
+  text-align center
   box-sizing border-box
   margin 5px
   color black
-  letter-spacing 3px
   height 200px
-  text-transform small-caps
   .wrapper
     display table-cell
     vertical-align middle
     pointer-events none
+
+#overlay
+  background-color black
+  color white
+  position fixed
+  top 0
+  left 0
+  width 100%
+  height 100%
+  display none
+  z-index 100
+  .block
+    color white
+    margin 0 auto
+    float none
+    text-align center
+    .title
+      width 100%
+      text-align center
+      p
+        display inline-block
+        border-bottom 1px solid white
+    img, .description
+      display inline-block
+      text-align left
+      margin 10px
+      vertical-align top
+    img            
+      background-color white
+    .description
+      max-width 400px
+
+  .close
+    position absolute
+    top 15px
+    left 15px
+    color white
+    font-size 60px
+    z-index 1
+    line-height 30px
+    display block
+    font-weight bold
 

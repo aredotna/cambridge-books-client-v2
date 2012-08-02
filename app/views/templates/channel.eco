@@ -1,4 +1,4 @@
-<p class="title"><%- @title %></p>
+<p class="title h1"><%- @title %></p>
 <ul class="channelView <%- @type %>">
   <% for block in @blocks: %>
     <% if block.block_type isnt "Channel" or block.published is true: %>

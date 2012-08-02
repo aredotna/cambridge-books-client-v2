@@ -5,6 +5,8 @@
 {LayerView} = require('views/layer_view')
 {ChannelView} = require('views/channel_view')
 {BlockView} = require('views/block_view')
+{OverlayView} = require('views/overlay_view')
+
 
 class exports.Application
 
@@ -13,9 +15,8 @@ class exports.Application
   initialize: (options)->
     @options = {}
     _.extend(@options, options)
-    @layerManager = new LayerManager
-    	el: $('#layers')
-
+    @layerManager = new LayerManager el: $('#layers')
+    @overlay = new OverlayView el: $('#overlay')
     @router = new MainRouter()
     Backbone.history.start()
 
@@ -28,10 +29,10 @@ class exports.Application
     view = new ChannelView(model:channel)
     @addLayer(view)
 
-  addBlock: (block)->
+  openBlock: (block)->
     block = new Block(block)
     view = new BlockView(model:block)
-    @addLayer(view)
+    @overlay.open(view)
 
   addLayer: (content)->
     @layerManager.addLayer(content)
