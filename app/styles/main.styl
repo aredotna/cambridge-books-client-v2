@@ -23,7 +23,7 @@ body
 
 
 p
-  margin 0 0 1.5em
+  margin 0 0 1em
 
 a, a:hover, a:active, a:visited
   color inherit
@@ -40,10 +40,11 @@ h1, .h1
 
 h2, .h2
   font 36px/40px "Times News Roman", Times, serif
+  letter-spacing 3px
 
 h3, .h3
-  font 13px/16px "Times New Roman", Times, serif
-  letter-spacing 3px
+  font 16px/20px "Times New Roman", Times, serif
+  letter-spacing 2px
 
 h4, .h4
 
@@ -66,13 +67,14 @@ h6, .h6
   position absolute
   background-color blue
   box-sizing border-box
-  padding 20px 40px
   min-height 1000px
   box-shadow 0px 0px 24px 5px rgba(0, 0, 0, .3)
   .title
     text-align center
     margin 0
+    padding 20px
     margin-bottom 60px
+    cursor pointer
   .close
     position absolute
     top 14px
@@ -96,30 +98,33 @@ h6, .h6
       display none
 
 .block.Text
-  letter-spacing 1px
-  text-align left
   float none
   width 440px
 
 .block
   cursor pointer
   padding 20px
+
   float left
   display table
-  text-align center
   box-sizing border-box
   margin 5px
   color black
   height 200px
+  max-width 600px;
   .wrapper
     display table-cell
     vertical-align middle
     pointer-events none
+  .description
+    max-width 500px
+    margin-top 7px
 
 #overlay
-  background-color black
+  background-color rgba(255, 0, 0, .93)
   color white
   position fixed
+  overflow auto
   top 0
   left 0
   width 100%
@@ -133,20 +138,22 @@ h6, .h6
     text-align center
     .title
       width 100%
+      margin-bottom 30px
       text-align center
       p
         display inline-block
         border-bottom 1px solid white
+        padding-bottom 2px
     img, .description
       display inline-block
       text-align left
-      margin 10px
+      margin 15px
       vertical-align top
     img            
       background-color white
     .description
-      max-width 400px
-
+      max-width 500px
+ 
   .close
     position absolute
     top 15px
