@@ -35,12 +35,12 @@
       <% if @connectedChannels.length isnt 0: %>
         <div class="connections">
           <% for connection in @connectedChannels: %>
-            <a class="connectionLink" href="<%- connection.channel.slug %>"><%- connection.channel.title %></a>
+            <a class="connectionLink" data-slug="<%- connection.channel.slug %>"><%- connection.channel.title %></a>
             <% console.log connection %>
           <% end %>
         </div>
       <% end %>
-      
+
     </div>
   <% end %>
   
