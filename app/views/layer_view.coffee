@@ -22,6 +22,9 @@ class exports.LayerView extends Backbone.View
 			zIndex: @options.depth
 			backgroundColor: 'white'
 
+	makeTop: ->
+		app.layerManager.setTop(this)
+
 	name: ->
 		@contentView.model.options.slug
 

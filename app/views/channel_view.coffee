@@ -4,7 +4,8 @@ template = require './templates/channel'
 class exports.ChannelView extends Backbone.View
 
   events:
-    "click .block" : "showBlock"
+    "click .block"  : "showBlock"
+    "click .title"  : "makeTop"
 
   initialize: ->
     @template = template
@@ -19,6 +20,9 @@ class exports.ChannelView extends Backbone.View
     else 
       app.openBlock(block)
     false
+
+  makeTop: ->
+    @layer.makeTop()
 
   render: ->
     data = @model.toJSON()

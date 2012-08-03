@@ -10,10 +10,12 @@ class exports.LayerManager extends Backbone.View
 		layer = new LayerView
 			contentView: contentView
 			depth: @layers.length
+		contentView.layer = layer
 
 		layer.bind 'layer:close', @removeLayer, @
 
 		@layers.push(layer)
+		console.log @layers
 		@render()
 		
 		$('body').clearQueue().animate
@@ -30,6 +32,18 @@ class exports.LayerManager extends Backbone.View
 			if _layer is layer 
 				@layers.splice @layers.indexOf(_layer), 1
 		app.resetUrl()
+
+	setTop: (layer)->
+		topSet = false
+		toRemove = []
+		@layers.forEach (_layer)=>
+			if topSet 
+				toRemove.push(_layer)
+			if _layer is layer
+				topSet = true
+
+		toRemove.forEach (_layer)=>
+			_layer.close()
 
 	currentPath: ->
 		slugs = @layers.map (layer)=>
