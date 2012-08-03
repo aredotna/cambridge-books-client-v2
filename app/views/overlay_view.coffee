@@ -13,6 +13,7 @@ class exports.OverlayView extends Backbone.View
 
 	close: ->
 		@$el.hide()
+		app.resetUrl()
 		$('body').css 'overflow', 'auto'
 
 	render: ->
