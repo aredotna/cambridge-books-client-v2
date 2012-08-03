@@ -28,6 +28,7 @@ class exports.Application
       slug: slug
     view = new ChannelView(model:channel)
     @addLayer(view)
+    channel
 
   openBlock: (block)->
     block = new Block(block)
