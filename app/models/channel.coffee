@@ -24,7 +24,6 @@ class exports.Channel extends Backbone.Collection
 	loadBlocks: (depth=0) ->
 		@fetch
 			success: (channel, blocks)=>
-				@reset()
 				@attributes = _.clone blocks
 				@add(blocks.blocks)
 				@add(blocks.channels)
@@ -34,6 +33,7 @@ class exports.Channel extends Backbone.Collection
 							@channel = new Channel null, 
 								slug:block.get('slug')
 								depth: channel.options.depth - 1
+				@trigger('loaded')
 
 	toJSON: ->
 		blocks = {blocks:super()}
