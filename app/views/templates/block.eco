@@ -9,20 +9,20 @@
     <% if @block.image.display: %>
         <img src="<%= @block.image.display %>" alt="<%= @block.title %>" />
     <% else: %>
-      <p>
+      <p class="h3">
         <a href="<%= @block.link_url %>" class="external url" target="_blank"><%= @block.link_url %></a>
       </p>
     <% end %>
 
   <% else if @block.block_type is 'Text': %>
     <!-- TEXT -->
-    <div class="content">
+    <div class="content h3">
       <%- @block.content %>
     </div>
 
   <% else if @block.block_type is 'Channel': %>
       <!-- CHANNEL -->
-      <span class="h2"><%- @block.title %></span>
+      <span class="h3"><%- @block.title %></span>
   <% end %>
   <div class="description h3"><%- @block.content %></div>
 
