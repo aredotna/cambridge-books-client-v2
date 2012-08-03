@@ -6,7 +6,7 @@
 {ChannelView} = require('views/channel_view')
 {BlockView} = require('views/block_view')
 {OverlayView} = require('views/overlay_view')
-
+{AppView} = require('views/app_view')
 
 class exports.Application
 
@@ -18,6 +18,7 @@ class exports.Application
     @layerManager = new LayerManager el: $('#layers')
     @overlay = new OverlayView el: $('#overlay')
     @router = new MainRouter()
+    @appView = new AppView el: $('body')
     Backbone.history.start()
 
   openChannel: (slug)->
