@@ -21,7 +21,8 @@ class exports.Application
     Backbone.history.start()
 
   openChannel: (slug)->
-    @router.navigateRelative(slug)
+    @addChannel(slug)
+    @resetUrl()
 
   addChannel: (slug)->
     channel = new Channel null,
@@ -34,6 +35,7 @@ class exports.Application
     block = new Block(block)
     view = new BlockView(model:block)
     @overlay.open(view)
+    @resetUrl()
     @router.navigateRelative('show:' + block.id)
 
   addLayer: (content)->
