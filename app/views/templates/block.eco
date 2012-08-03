@@ -16,14 +16,32 @@
 
   <% else if @block.block_type is 'Text': %>
     <!-- TEXT -->
-    <div class="content h3">
-      <%- @block.content %>
-    </div>
+
 
   <% else if @block.block_type is 'Channel': %>
       <!-- CHANNEL -->
       <span class="h3"><%- @block.title %></span>
   <% end %>
-  <div class="description h3"><%- @block.content %></div>
 
+  <% if @block.content isnt '' or @connectedChannels.length isnt 0: %>
+    <div class="info h3">
+
+      <% if @block.content isnt '': %>
+        <div class="description">
+          <%- @block.content %>
+        </div>
+      <% end %>
+
+      <% if @connectedChannels.length isnt 0: %>
+        <div class="connections">
+          <% for connection in @connectedChannels: %>
+            <a class="connectionLink" href="<%- connection.channel.slug %>"><%- connection.channel.title %></a>
+            <% console.log connection %>
+          <% end %>
+        </div>
+      <% end %>
+      
+    </div>
+  <% end %>
+  
 </div>

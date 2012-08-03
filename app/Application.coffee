@@ -33,7 +33,6 @@ class exports.Application
     channel
 
   openBlock: (block)->
-    block = new Block(block)
     view = new BlockView(model:block)
     @overlay.open(view)
     @resetUrl()

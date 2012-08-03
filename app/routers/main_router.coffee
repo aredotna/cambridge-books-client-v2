@@ -25,7 +25,7 @@ class exports.MainRouter extends Backbone.Router
       last.bind 'loaded', _.bind((data)->
         channel = data[0]
         block = data[1]
-        app.openBlock channel.where(id:block)[0].toJSON()
+        app.openBlock channel.where(id:block)[0]
       , this, [last, block])
 
   navigateRelative: (slug)->

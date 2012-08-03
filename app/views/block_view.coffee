@@ -10,4 +10,5 @@ class exports.BlockView extends Backbone.View
   render: ->
     @$el.html @template 
       block: @model.toJSON()
+      connectedChannels: @model.connectedChannels()
     @delegateEvents()
