@@ -33,6 +33,7 @@ class exports.Application
     block = new Block(block)
     view = new BlockView(model:block)
     @overlay.open(view)
+    @router.navigateRelative('show:' + block.id)
 
   addLayer: (content)->
     @layerManager.addLayer(content)
