@@ -1,15 +1,16 @@
 template = require './templates/channel'
-
-
+{BlockView} = require './block_view'
+  
 class exports.ChannelView extends Backbone.View
 
   events:
-    "click .block"  : "showBlock"
+    "click .block"  : "openBlock"
     "click .title"  : "makeTop"
 
   initialize: ->
     @template = template
-    @model.bind "add", @render, @
+    @model.bind "add", @setViews, @
+    @setViews()
     @model.bind "loaded", @stopLoader, @
     @animateLoader(0)
 
@@ -26,8 +27,9 @@ class exports.ChannelView extends Backbone.View
     clearTimeout(@loaderTimer)
     @render()
 
-  showBlock: (e)->
-    id = parseInt(e.target.id)
+
+  openBlock: (e)->
+    id = parseInt(e.currentTarget.id)
     block = @model.where(id:id)[0]
 
     if block.get('block_type') is "Channel"
@@ -42,13 +44,16 @@ class exports.ChannelView extends Backbone.View
   render: ->
     data = @model.toJSON()
     @$el.html @template
-      blocks: data.blocks
       title: data.title
       type: @type()
+      blocks: []
+
+    _.each @blockViews, (view)=>
+      view.render()
+      @$el.find('.channelView').append view.el
+
     @delegateEvents()
 
-  type: ->
-    type="content"
     @model.each (block) ->
       if block.get('block_type') is "Channel"
         type = "menu"
