@@ -1,3 +1,5 @@
 <p class="title h1"><%- @title %></p>
-<a class="viewLink">Toggle View</a>
+<% if @channelClass isnt "menu": %>
+  <a class="viewLink"><%-@channelClass%> View</a>
+<% end %>
 <ul class="channelView <%- @channelClass %>"></ul>
