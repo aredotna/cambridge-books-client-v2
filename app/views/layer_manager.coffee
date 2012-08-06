@@ -30,7 +30,9 @@ class exports.LayerManager extends Backbone.View
 	removeLayer: (layer)->
 		@layers.forEach (_layer)=>
 			if _layer is layer 
-				@layers.splice @layers.indexOf(_layer), 1
+				layerIndex = @layers.indexOf(_layer)
+				@layers.splice layerIndex, 1
+				@setTop(@layers[layerIndex-1])
 		app.resetUrl()
 
 	setTop: (layer)->
