@@ -25,8 +25,9 @@ class exports.Channel extends Backbone.Collection
 		@fetch
 			success: (channel, blocks)=>
 				@attributes = _.clone blocks
-				@add(blocks.blocks)
-				@add(blocks.channels)
+				@add(blocks.blocks, silent:true)
+				@add(blocks.channels, silent: true)
+				@trigger('add')
 				if depth
 					@each (block)->
 						if block.get('block_type') is "Channel" and block.get('published')
