@@ -28,6 +28,7 @@ class exports.ChannelView extends Backbone.View
   setViews: ->
     @blockViews = @model.map (block) ->
       new BlockView model:block
+    @_setChannelClass()
     @render()
 
   stopLoader: ->
@@ -36,17 +37,18 @@ class exports.ChannelView extends Backbone.View
 
   toggleView: ->
     @view = if @view is "grid" then "list" else "grid"
+    @_setChannelClass()
     @render()
 
   openBlock: (e)->
-    id = parseInt(e.currentTarget.id)
-    block = @model.where(id:id)[0]
-
-    if block.get('block_type') is "Channel"
-      app.openChannel(block.get('slug'))
-    else 
-      app.openBlock(block)
-    false
+    if $(e.currentTarget).is(".Image") or $(e.currentTarget).is(".Channel")
+      id = parseInt(e.currentTarget.id)
+      block = @model.where(id:id)[0]
+      if block.get('block_type') is "Channel"
+        app.openChannel(block.get('slug'))
+      else 
+        app.openBlock(block)
+      false
 
   makeTop: ->
     @layer.makeTop()
@@ -55,20 +57,20 @@ class exports.ChannelView extends Backbone.View
     data = @model.toJSON()
     @$el.html @template
       title: data.title
-      channelClass: @channelClass()
+      channelClass: @channelClass
       blocks: []
 
-    _.each @blockViews, (view)=>
-      view.render()
-      @$el.find('.channelView').append view.el
+    _.each @blockViews, (view, num)=>
+      if @channelClass == "menu" || num !=0
+        view.render()
+        @$el.find('.channelView').append view.$el.find('>li')
 
     @delegateEvents()
 
-  channelClass: ->
+  _setChannelClass: ->
     type = @view
     @model.each (block) ->
       if block.get('block_type') is "Channel"
         type = "menu"
-    type
-
+    @channelClass = type
 
