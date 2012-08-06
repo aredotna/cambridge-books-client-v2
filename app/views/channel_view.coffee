@@ -58,7 +58,7 @@ class exports.ChannelView extends Backbone.View
     @$el.html @template
       title: data.title
       channelClass: @channelClass
-      blocks: []
+      blockLength: @blockViews.length
 
     _.each @blockViews, (view, num)=>
       if @channelClass == "menu" || num !=0
