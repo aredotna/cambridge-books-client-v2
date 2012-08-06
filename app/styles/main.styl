@@ -88,10 +88,25 @@ h6, .h6
     color red
     font-size 24px
     font-weight bold
+  .viewLink
+    position fixed
+    bottom 20px
+    right 20px
+    padding 10px
+    background-color blue
+    box-shadow 2px 2px 5px rgba(0, 0, 0, .2)
+    color white
+    font-family arial
+    font-size 14px
+    letter-spacing 2px
+    text-transform capitalize
+    &:hover
+      color white
+      background-color red
 
 .channelView 
   overflow auto
- 
+
 
 
 .block
@@ -113,6 +128,11 @@ h6, .h6
       display none
     .info
       display none
+    .viewLink
+      background-color #ccc
+      &:active
+        background-color #ccc
+        cursor default
 
 .grid
   .block
@@ -122,6 +142,7 @@ h6, .h6
     display table
     box-sizing border-box
     margin 5px
+    margin-bottom 20px
     color black
     height 200px
     max-width 600px;
@@ -133,6 +154,7 @@ h6, .h6
       max-width 500px
       margin-top 7px
     .info
+      margin-top 7px
       .description, .connections
         display none
     &.Text
@@ -141,6 +163,16 @@ h6, .h6
           display block
 
 .list
+  > div
+    overflow auto
+    &::after
+      display block
+      clear both
+      padding 150px 0px
+      color black
+      content "\3007"
+      font-size 24px
+      text-align center
   .block
     float none
     clear both
@@ -170,14 +202,15 @@ h6, .h6
     margin 0 auto
     float none
     text-align center
+    margin-left -75px
     .title
       width 100%
       margin 0 auto
       margin-bottom 40px
       text-align center
       font-size 75px
-      line-height 75px
-      width 800px
+      line-height 70px
+      text-align left
       p
         display inline-block
         padding-bottom 2px
@@ -189,15 +222,20 @@ h6, .h6
       vertical-align top
     img            
       background-color white
+    .content
+      display inline-block
     .info
       max-width 400px
+      margin-left 30px
+      top -9px
+      position relative
     .description
-      margin-bottom 20px
+      margin-bottom 22px
       margin-top 0px
     .connections
       .connectionLink
         display inline-block
-        color red
+        color black
         background-color white
         padding 3px 7px
         margin-bottom 5px
