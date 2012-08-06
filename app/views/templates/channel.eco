@@ -1,37 +1,3 @@
 <p class="title h1"><%- @title %></p>
-<ul class="channelView <%- @type %>">
-  <% for block in @blocks: %>
-    <% if block.block_type isnt "Channel" or block.published is true: %>
-      <li id="<%- block.id %>" class="block <%- block.block_type %>">
-        <div class="wrapper">
-
-              <% if block.block_type is 'Image': %>
-                <!-- IMAGE -->
-                <img src="<%= block.image.display %>" alt="<%= block.title %>" />
-                <div class="description h3"><%- block.title %></div>
-              <% else if block.block_type is 'Link': %>
-                <!-- LINK -->
-                <% if block.image.display: %>
-                    <img src="<%= block.image.display %>" alt="<%= block.title %>" />
-                <% else: %>
-                  <p>
-                    <a href="<%= block.link_url %>" class="external url" target="_blank"><%= block.link_url %></a>
-                  </p>
-                <% end %>
-            
-              <% else if block.block_type is 'Text': %>
-                <!-- TEXT -->
-                <div class="content h3">
-                  <%- block.content %>
-                </div>
-
-              <% else if block.block_type is 'Channel': %>
-                  <!-- CHANNEL -->
-                  <span class="h2"><%- block.title.toLowerCase() %></span>
-              <% end %>
-
-        </div>
-      </li>
-    <% end %>
-  <% end %>
-</ul>
+<a class="viewLink">Toggle View</a>
+<ul class="channelView <%- @channelClass %>"></ul>
