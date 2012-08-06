@@ -6,10 +6,12 @@ class exports.ChannelView extends Backbone.View
   events:
     "click .block"  : "openBlock"
     "click .title"  : "makeTop"
+    "click .viewLink" : "toggleView"
 
   initialize: ->
     @template = template
     @model.bind "add", @setViews, @
+    @view = "grid"
     @setViews()
     @model.bind "loaded", @stopLoader, @
     @animateLoader(0)
@@ -23,10 +25,18 @@ class exports.ChannelView extends Backbone.View
       @animateLoader(step + 1)
     , 300
 
+  setViews: ->
+    @blockViews = @model.map (block) ->
+      new BlockView model:block
+    @render()
+
   stopLoader: ->
     clearTimeout(@loaderTimer)
     @render()
 
+  toggleView: ->
+    @view = if @view is "grid" then "list" else "grid"
+    @render()
 
   openBlock: (e)->
     id = parseInt(e.currentTarget.id)
@@ -45,7 +55,7 @@ class exports.ChannelView extends Backbone.View
     data = @model.toJSON()
     @$el.html @template
       title: data.title
-      type: @type()
+      channelClass: @channelClass()
       blocks: []
 
     _.each @blockViews, (view)=>
@@ -54,6 +64,8 @@ class exports.ChannelView extends Backbone.View
 
     @delegateEvents()
 
+  channelClass: ->
+    type = @view
     @model.each (block) ->
       if block.get('block_type') is "Channel"
         type = "menu"
