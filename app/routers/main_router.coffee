@@ -5,28 +5,31 @@ class exports.MainRouter extends Backbone.Router
 
   routes :
     "": "index"
-    "*channels/show::block" : "channel"
-    "*channels/show::block/" : "channel"
+    "*channels/show::block" : "block"
     "*channels":"channel"
 
   index: ->
     app.addChannel app.options.rootChannel
     
-  channel: (slug, block)->
-    block = parseInt(block)
+  channel: (slug)->
     channels = slug.split('/')
     app.addChannel app.options.rootChannel
 
     channelModels = channels.map (channel)->
       app.addChannel channel
-    
-    if block
-      last = channelModels.pop()
-      last.bind 'loaded', _.bind((data)->
-        channel = data[0]
-        block = data[1]
-        app.openBlock channel.where(id:block)[0]
-      , this, [last, block])
+    channelModels
+
+  block: (slug, block)->
+    channels = @channel(slug)
+    block = parseInt(block)
+    last = channels.pop()
+
+    last.bind 'loaded', _.bind((data)->
+      channel = data[0]
+      block = data[1]
+      app.openBlock channel.where(id:block)[0]
+    , this, [last, block])
+
 
   navigateRelative: (slug)->
     path = Backbone.history.fragment
