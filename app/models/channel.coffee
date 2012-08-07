@@ -45,7 +45,6 @@ class exports.Channel extends Backbone.Collection
 
 
   _filtered: (criteria) ->
-    debugger
     new exports.Channel @select(criteria),
       autoload: false
 

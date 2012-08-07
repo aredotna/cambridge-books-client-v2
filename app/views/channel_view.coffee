@@ -8,6 +8,9 @@ class exports.ChannelView extends Backbone.View
     "click .title"  : "makeTop"
     "click .viewLink" : "toggleView"
 
+  name: ->
+    @model.options.slug
+
   initialize: ->
     @template = template
     @model.bind "add", @setViews, @

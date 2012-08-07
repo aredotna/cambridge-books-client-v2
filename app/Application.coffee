@@ -24,6 +24,12 @@ class exports.Application
     @appView = new AppView el: $('body')
     Backbone.history.start()
 
+  setRootChannel:(slug)->
+    channel  = new Channel null, 
+      slug: slug
+    view = new ChannelView model: channel
+    @layerManager.setRoot(view)
+
   openChannel: (slug)->
     @addChannel(slug)
     @resetUrl()
@@ -32,7 +38,7 @@ class exports.Application
     channel = new Channel null,
       slug: slug
     view = new ChannelView(model:channel)
-    @addLayer(view)
+    @layerManager.addLayer(view)
     channel
 
   openBlock: (block)->
@@ -41,8 +47,5 @@ class exports.Application
     @resetUrl()
     @router.navigateRelative('show:' + block.id)
 
-  addLayer: (content)->
-    @layerManager.addLayer(content)
-
   resetUrl: ->
-    @router.navigate @layerManager.currentPath()
+    @router.navigate @layerManager.toPath()

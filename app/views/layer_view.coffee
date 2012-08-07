@@ -26,10 +26,9 @@ class exports.LayerView extends Backbone.View
 		app.layerManager.setTop(this)
 
 	name: ->
-		@contentView.model.options.slug
+		@contentView.name()
 
 	close: ->
-		@$el.remove()
 		@trigger('layer:close', @)
 
 	lightness:->

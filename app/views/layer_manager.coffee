@@ -6,10 +6,26 @@ class exports.LayerManager extends Backbone.View
 	initialize: ->
 		@layers = []
 
+	render: ->
+		@$el.html('')
+		@rootLayer.render()
+		@$el.append @rootLayer.el
+
+		@layers.forEach (layer)=>
+			layer.render() 
+			@$el.append layer.el 
+
+	setRoot: (contentView)->
+		if !@rootLayer
+			@rootLayer = new LayerView
+				contentView: contentView
+				depth: 0
+			@render()
+
 	addLayer: (contentView)->
 		layer = new LayerView
 			contentView: contentView
-			depth: @layers.length
+			depth: @layers.length + 1
 		contentView.layer = layer
 
 		layer.bind 'layer:close', @removeLayer, @
@@ -19,12 +35,6 @@ class exports.LayerManager extends Backbone.View
 		
 		$('body').clearQueue().animate
 			scrollTop: @layers[@layers.length-1].$el.offset().top
-
-	render: ->
-		@$el.html('')
-		@layers.forEach (layer)=>
-			layer.render() 
-			@$el.append(layer.el)
 
 	removeLayer: (layer)->
 		layerIndex = @layers.indexOf layer
@@ -38,10 +48,24 @@ class exports.LayerManager extends Backbone.View
 		@render()
 		app.resetUrl()
 
-	currentPath: ->
+	toPath: ->
 		slugs = @layers.map (layer)=>
 			layer.name()
 		slugs.join('/')
+
+	setFromPath: (path)->
+
+		channelNames = if path then path.split('/') else []
+		layerNames = @layers.map (layer)-> layer.name() 
+
+		_.difference(layerNames, channelNames).forEach (layerName)=>
+			@removeLayer @_byName(layerName)
+
+		_.difference(channelNames, layerNames).forEach (channelName)=>
+			app.addChannel(channelName)
+
+	_byName: (name)->
+		_.filter @layers, (layer)->  layer.name() is name
 
 	reset: ->
 		@layers = []
