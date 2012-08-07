@@ -26,7 +26,7 @@ class exports.ChannelView extends Backbone.View
     , 300
 
   setViews: ->
-    @blockViews = @model.map (block) ->
+    @blockViews = @model.bySelection().map (block) ->
       new BlockView model:block
     @_setChannelClass()
     @render()
