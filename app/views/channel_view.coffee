@@ -54,7 +54,7 @@ class exports.ChannelView extends Backbone.View
       false
 
   makeTop: ->
-    @layer.makeTop()
+    @layer.setTop()
 
   render: ->
     data = @model.toJSON()
