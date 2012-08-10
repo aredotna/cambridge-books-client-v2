@@ -1,1 +1,3 @@
-<a class="close">&times;</a>
+<div class="layerCont <%- @layerClass %>">
+  <a class="close">&times;</a>
+ </div>
