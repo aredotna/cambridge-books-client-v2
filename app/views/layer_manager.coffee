@@ -8,12 +8,13 @@ class exports.LayerManager extends Backbone.View
 
 	render: ->
 		@$el.html('')
-		@rootLayer.render()
-		@$el.append @rootLayer.el
+		if @rootLayer
+			@rootLayer.render()
+			@$el.append @rootLayer.el
 
-		@layers.forEach (layer)=>
-			layer.render() 
-			@$el.append layer.el 
+			@layers.forEach (layer)=>
+				layer.render() 
+				@$el.append layer.el 
 
 	setRoot: (contentView)->
 		if !@rootLayer
@@ -21,6 +22,7 @@ class exports.LayerManager extends Backbone.View
 				contentView: contentView
 				depth: 0
 				manager: @
+			@rootLayer.bind 'layer:close', @removeLayer, @
 			@render()
 
 	addLayer: (contentView)->
@@ -39,8 +41,12 @@ class exports.LayerManager extends Backbone.View
 			scrollTop: @layers[@layers.length-1].$el.offset().top
 
 	removeLayer: (layer)->
-		layerIndex = @layers.indexOf layer
-		@layers.splice(layerIndex, @layers.length)
+		if layer is @rootLayer
+			@rootLayer = null
+			@layers = []
+		else
+			layerIndex = @layers.indexOf layer
+			@layers.splice(layerIndex, @layers.length)
 		@render()
 		app.resetUrl()
 
