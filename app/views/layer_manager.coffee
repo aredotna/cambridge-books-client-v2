@@ -20,12 +20,14 @@ class exports.LayerManager extends Backbone.View
 			@rootLayer = new LayerView
 				contentView: contentView
 				depth: 0
+				manager: @
 			@render()
 
 	addLayer: (contentView)->
 		layer = new LayerView
 			contentView: contentView
 			depth: @layers.length + 1
+			manager: @
 		contentView.layer = layer
 
 		layer.bind 'layer:close', @removeLayer, @
@@ -48,10 +50,12 @@ class exports.LayerManager extends Backbone.View
 		@render()
 		app.resetUrl()
 
-	toPath: ->
-		slugs = @layers.map (layer)=>
+	layerNames: ->
+		@layers.map (layer)=>
 			layer.name()
-		slugs.join('/')
+
+	toPath: ->
+		@layerNames().join('/')
 
 	setFromPath: (path)->
 
@@ -59,12 +63,12 @@ class exports.LayerManager extends Backbone.View
 		layerNames = @layers.map (layer)-> layer.name() 
 
 		_.difference(layerNames, channelNames).forEach (layerName)=>
-			@removeLayer @_byName(layerName)
+			@removeLayer @_layerByName(layerName)
 
 		_.difference(channelNames, layerNames).forEach (channelName)=>
 			app.addChannel(channelName)
 
-	_byName: (name)->
+	_layerByName: (name)->
 		_.filter @layers, (layer)->  layer.name() is name
 
 	reset: ->
