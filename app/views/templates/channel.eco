@@ -1,5 +1,2 @@
 <p class="title h1 topLink"><%- @title %></p>
-<% if @channelClass isnt "menu" and @blockLength > 0: %>
-  <a class="viewLink"><%-@channelClass%> View</a>
-<% end %>
 <ul class="channelView <%- @channelClass %>"></ul>

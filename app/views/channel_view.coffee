@@ -6,7 +6,6 @@ class exports.ChannelView extends Backbone.View
   events:
     "click .block"  : "openBlock"
     "click .title"  : "makeTop"
-    "click .viewLink" : "toggleView"
 
   name: ->
     @model.options.slug
@@ -14,7 +13,7 @@ class exports.ChannelView extends Backbone.View
   initialize: ->
     @template = template
     @model.bind "add", @setViews, @
-    @view = "grid"
+    @view = "list"
     @setViews()
     @model.bind "loaded", @stopLoader, @
     @animateLoader(0)
@@ -37,12 +36,7 @@ class exports.ChannelView extends Backbone.View
   stopLoader: ->
     clearTimeout(@loaderTimer)
     @render()
-
-  toggleView: ->
-    @view = if @view is "grid" then "list" else "grid"
-    @_setChannelClass()
-    @render()
-
+    
   openBlock: (e)->
     if $(e.currentTarget).is(".Image") or $(e.currentTarget).is(".Channel")
       id = parseInt(e.currentTarget.id)
