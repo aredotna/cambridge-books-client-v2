@@ -12,6 +12,11 @@ class exports.LayerManager extends Backbone.View
 			layer.render() 
 			@$el.append layer.el 
 
+		if @layers.length > 0
+			last = $(@layers[@layers.length - 1].el)
+			$('#contentWrapper').css
+				height: last.position().top + last.height() 
+
 	addLayer: (contentView)->
 		layer = new LayerView
 			contentView: contentView
