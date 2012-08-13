@@ -1,0 +1,6 @@
+
+<% for block in @blocks: %>
+  <% if block.block_type == "Channel": %>
+    <li><%- block.title.toLowerCase() %></li>
+  <% end %>
+<% end %>

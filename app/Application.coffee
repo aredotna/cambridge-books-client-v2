@@ -8,6 +8,7 @@
 {OverlayView} = require('views/overlay_view')
 {AppView} = require('views/app_view')
 {BaseView} = require('views/base_view')
+{NavView} = require('views/nav_view')
 
 class exports.Application
 
@@ -21,6 +22,7 @@ class exports.Application
     @layerManager = new LayerManager el: $('#layers')
     @overlay = new OverlayView el: $('#overlay')
     @router = new MainRouter()
+    @navViw = new NavView model: new Channel(null, slug: @options.rootChannel), el: $('#mainNav')
     @baseView = new BaseView model: new Channel(null, slug: @options.baseChannel), el: $('#base')
     Backbone.history.start()
 
