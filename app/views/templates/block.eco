@@ -23,7 +23,7 @@
 
       <% else if @block.block_type is 'Channel': %>
           <!-- CHANNEL -->
-          <span class="h2"><%- @block.title.toLowerCase() %></span>
+          <span class="h2 channelLink"><%- @block.title.toLowerCase() %></span>
 
 
       <% else if @block.block_type is "Media": %>
@@ -45,7 +45,7 @@
         <% if @connectedChannels.length isnt 0: %>
           <div class="connections">
             <% for connection in @connectedChannels: %>
-              <a class="connectionLink" data-slug="<%- connection.channel.slug %>"><%- connection.channel.title %></a>
+              <a class="connectionLink channelLink" data-slug="<%- connection.channel.slug %>"><%- connection.channel.title %></a>
             <% end %>
           </div>
         <% end %>
