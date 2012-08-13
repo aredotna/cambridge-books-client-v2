@@ -5,4 +5,4 @@ class exports.AppView extends Backbone.View
     "click #infoLink" : "reset"
 
   reset: ->
-    app.router.index()
+    app.reset()
