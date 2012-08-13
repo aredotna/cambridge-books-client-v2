@@ -4,8 +4,8 @@ template = require './templates/channel'
 class exports.ChannelView extends Backbone.View
 
   events:
-    "click .block"  : "openBlock"
-    "click .title"  : "makeTop"
+    "click .block.Channel"  : "openChannel"
+    "click .title"          : "makeTop"
 
   name: ->
     @model.options.slug
@@ -37,14 +37,10 @@ class exports.ChannelView extends Backbone.View
     clearTimeout(@loaderTimer)
     @render()
     
-  openBlock: (e)->
-    if $(e.currentTarget).is(".Image") or $(e.currentTarget).is(".Channel")
-      id = parseInt(e.currentTarget.id)
+  openChannel: (e)->
+      id = parseInt($(e.currentTarget).attr('id'))
       block = @model.where(id:id)[0]
-      if block.get('block_type') is "Channel"
-        app.openChannel(block.get('slug'))
-      else 
-        app.openBlock(block)
+      app.openChannel(block.get('slug'))
       false
 
   makeTop: ->

@@ -5,7 +5,6 @@
 {LayerView} = require('views/layer_view')
 {ChannelView} = require('views/channel_view')
 {BlockView} = require('views/block_view')
-{OverlayView} = require('views/overlay_view')
 {AppView} = require('views/app_view')
 {BaseView} = require('views/base_view')
 {NavView} = require('views/nav_view')
@@ -20,7 +19,6 @@ class exports.Application
     @options = {}
     _.extend(@options, options)
     @layerManager = new LayerManager el: $('#layers')
-    @overlay = new OverlayView el: $('#overlay')
     @router = new MainRouter()
     @navViw = new NavView model: new Channel(null, slug: @options.rootChannel), el: $('#mainNav')
     @baseView = new BaseView model: new Channel(null, slug: @options.baseChannel), el: $('#base')
@@ -36,12 +34,6 @@ class exports.Application
     view = new ChannelView(model:channel)
     @layerManager.addLayer(view)
     channel
-
-  openBlock: (block)->
-    view = new BlockView(model:block)
-    @overlay.open(view)
-    @resetUrl()
-    @router.navigateRelative('show:' + block.id)
 
   resetUrl: ->
     @router.navigate @layerManager.toPath()
