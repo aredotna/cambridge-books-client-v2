@@ -51,8 +51,8 @@ class exports.LayerManager extends Backbone.View
 		app.resetUrl()
 
 	setTop: (layer)->
-		layerIndex = @layers.indexOf layer + 1
-		@layers.splice(layerIndex - 1, @layers.length)
+		layerIndex = @layers.indexOf(layer) + 1
+		@layers.splice(layerIndex, @layers.length)
 		@render()
 		app.resetUrl()
 
