@@ -15,22 +15,14 @@ class exports.Application
   
   adminIds: [228, 235] 
 
-
   initialize: (options)->
     @options = {}
     _.extend(@options, options)
     @layerManager = new LayerManager el: $('#layers')
     @overlay = new OverlayView el: $('#overlay')
     @router = new MainRouter()
-    @appView = new AppView el: $('body')
     @baseView = new BaseView model: new Channel(null, slug: @options.baseChannel), el: $('#base')
     Backbone.history.start()
-
-  setRootChannel:(slug)->
-    channel  = new Channel null, 
-      slug: slug
-    view = new ChannelView model: channel
-    @layerManager.setRoot(view)
 
   openChannel: (slug)->
     @addChannel(slug)

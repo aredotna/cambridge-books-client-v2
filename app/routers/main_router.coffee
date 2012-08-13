@@ -9,11 +9,9 @@ class exports.MainRouter extends Backbone.Router
     "*channels":"channel"
 
   index: ->
-    app.setRootChannel app.options.rootChannel
     app.layerManager.setFromPath()
 
   channel: (slug)->
-    app.setRootChannel app.options.rootChannel
     app.layerManager.setFromPath(slug)
 
   block: (slug, block)->
