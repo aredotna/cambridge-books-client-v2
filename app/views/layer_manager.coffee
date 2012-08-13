@@ -14,7 +14,7 @@ class exports.LayerManager extends Backbone.View
 
 		if @layers.length > 0
 			last = $(@layers[@layers.length - 1].el)
-			$('#contentWrapper').css
+			$('#mainWrapper').css
 				height: last.position().top + last.height() 
 
 	addLayer: (contentView)->
