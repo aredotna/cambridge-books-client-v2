@@ -45,3 +45,6 @@ class exports.Application
 
   resetUrl: ->
     @router.navigate @layerManager.toPath()
+
+  reset: ->
+    @layerManager.reset()

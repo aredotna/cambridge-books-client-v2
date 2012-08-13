@@ -2,7 +2,7 @@ template = require('./templates/nav')
 
 
 class exports.NavView extends Backbone.View
-  
+
   initialize: ->
     @template = template
     @render()

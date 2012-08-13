@@ -62,3 +62,4 @@ class exports.LayerManager extends Backbone.View
 
 	reset: ->
 		@layers = []
+		@render()

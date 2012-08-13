@@ -2,7 +2,7 @@
 class exports.AppView extends Backbone.View
 
   events:
-    "click #logo" : "reset"
+    "click #infoLink" : "reset"
 
   reset: ->
     app.router.index()
