@@ -7,6 +7,7 @@
 {BlockView} = require('views/block_view')
 {OverlayView} = require('views/overlay_view')
 {AppView} = require('views/app_view')
+{BaseView} = require('views/base_view')
 
 class exports.Application
 
@@ -22,6 +23,7 @@ class exports.Application
     @overlay = new OverlayView el: $('#overlay')
     @router = new MainRouter()
     @appView = new AppView el: $('body')
+    @baseView = new BaseView model: new Channel(null, slug: @options.baseChannel), el: $('#base')
     Backbone.history.start()
 
   setRootChannel:(slug)->

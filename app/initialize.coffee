@@ -14,3 +14,5 @@ $ ->
 	window.app = new Application
 	window.app.initialize
 		rootChannel : "cambridge-book--2"
+		baseChannel : "about-cambridge-book"
+	
