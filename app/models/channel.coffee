@@ -9,7 +9,7 @@ class exports.Channel extends Backbone.Collection
     autoload: true
 
   url: ->
-    "http://arena-cedar.herokuapp.com/api/v1/channels/#{@options.slug}.json?callback=?"
+    "http://are.na/api/v1/channels/#{@options.slug}.json?callback=?"
 
   comparator:(block) ->
     block.position
@@ -34,7 +34,7 @@ class exports.Channel extends Backbone.Collection
 
         @trigger('add')
         @trigger('loaded')
-
+        
         if depth
           @each (block)->
             if block.get('block_type') is "Channel" and block.get('published')
