@@ -15,6 +15,7 @@ class exports.BaseView extends Backbone.View
       view.$el.appendTo(@$el)
     @$el.imagesLoaded => @masonry()
     @masonry()
+    @center()
 
   masonry: ->
     $('#base').masonry('reload')
@@ -23,3 +24,9 @@ class exports.BaseView extends Backbone.View
     @blockViews = @model.bySelection().map (block) ->
       new BlockView model:block
     @render()
+
+  center: ->
+    wW = $(window).width()
+    cW = 340
+    $('#base').css
+      width: Math.floor(wW / cW) * cW

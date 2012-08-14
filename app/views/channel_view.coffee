@@ -56,7 +56,7 @@ class exports.ChannelView extends Backbone.View
     _.each @blockViews, (view, num)=>
       if @channelClass == "menu" || num !=0
         view.render()
-        @$el.find('.channelView').append view.$el.find('>li')
+        @$el.find('.channelView').append view.el
 
     @delegateEvents()
 

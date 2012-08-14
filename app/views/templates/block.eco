@@ -3,7 +3,7 @@
   <li id="<%- @block.id %>" class="block <%- @block.block_type %>">
     
     <div class="content">
-    
+
       <% if @block.block_type is "Image": %>
         <!-- IMAGE -->
         <img src="<%= @block.image.display %>" alt="<%= @block.title %>" />
@@ -24,7 +24,7 @@
 
       <% else if @block.block_type is 'Channel': %>
           <!-- CHANNEL -->
-          <span class="h2 channelLink"><%- @block.title.toLowerCase() %></span>
+          <a class="h2 channelLink" href="#/<%- @block.slug %>"><%- @block.title.toLowerCase() %></a>
 
 
       <% else if @block.block_type is "Media": %>
@@ -36,8 +36,12 @@
 
     <% if @block.content isnt '' or @connectedChannels.length isnt 0: %>
       <div class="info h3">
-        <div class="title h3"><%- if @block.title then @block.title.toLowerCase() %></div>
-        <% if @block.content isnt '': %>
+
+        <%  if @block.title: %>
+          <div class="title h3"><%- @block.title?.toLowerCase() %></div>
+        <% end %>
+
+        <% if @block.content: %>
           <div class="description">
             <%- @block.content %>
           </div>

@@ -14,8 +14,8 @@ class exports.BlockView extends Backbone.View
     @model.bind "update", @render, @
 
   openConnection: (e)->
+    console.log 'opening'
     slug = $(e.target).data('slug')
-    app.overlay.close()
     app.openChannel(slug) 
 
   render: ->

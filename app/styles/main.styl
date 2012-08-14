@@ -28,8 +28,9 @@ a, a:hover, a:active, a:visited
   color inherit
   text-decoration none
   cursor pointer
+  position relative
   &:hover
-    color red
+    top: 1px
 
 li
   list-style none
@@ -45,6 +46,7 @@ h2, .h2
 h3, .h3
   font 16px/20px "Times New Roman", Times, serif
   letter-spacing 2px
+  word-spacing -1px
 
 h4, .h4
 
@@ -91,24 +93,64 @@ h6, .h6
 
 
 #base 
-  margin-top 30px
-  width: 1000px
+  ::selection
+    background-color rgba(255,255,255,1)
+    color black
+    opacity 1
+  margin-top 50px
+  box-sizing content-box
+  padding-bottom 100px
   margin 30px auto 0 auto
   color white
+  .block
+    .connections
+      display none
+      margin-bottom 0px
+    &.Channel
+      .title
+        display none
+    &.Image 
+      margin-bottom 30px
+      text-align center
+      .title
+        font 12px/13px times
+        letter-spacing 1px
+
   .blockCont
     float left
-    width 440px
-    margin 30px
+    width 300px
+    margin 0px 20px
     img
       max-width 100%
-      margin-bottom 10px
+      margin-top 10px
+      margin-bottom 5px
     .info 
       width auto
     .title
-      font-size 64px
-      line-height 60px
-      text-align center
-      padding-bottom: 30px
+      text-align left
+      font-family arial
+      font-size 36px
+      line-height 44px
+      margin-bottom: 10px
+      text-transform capitalize
+    .description
+      padding-bottom 30px
+      a
+        border-bottom 1px solid white
+      ul
+        li
+          margin-bottom 10px
+          padding-left 17px
+          left -17px
+          position relative
+        li:before
+           content "•"
+           font-size 24px
+           position: absolute
+           left 0px
+           top: 0px
+
+
     .connectionLink
       display block
 
@@ -150,13 +192,8 @@ h6, .h6
   padding-bottom 200px
 
 .block
-  &.Image, &.Channel
+  &.Channel
     cursor pointer
-  &.Text
-    float none
-    width 440px
-  .title
-    text-transform capitalize
 
 .menu 
   .block 
@@ -179,7 +216,9 @@ h6, .h6
 .list
   width 1200px
   margin 0 auto
-  > li
+  hr
+    display none
+  .blockCont
     overflow auto
     &::after
       display block
@@ -193,8 +232,13 @@ h6, .h6
       display none
       content ''
   .block
-    float none
-    clear both
+    &.Text
+      float none
+      width 440px
+    .title
+      text-transform capitalize
+      float none
+      clear both
     .content, .info
       float left
       width  500px
@@ -205,3 +249,14 @@ h6, .h6
     .connectionLink
       display block
 
+.single
+  .block
+    .description
+      width 500px
+    margin-bottom 50px
+    &.Image
+      width 100%
+      img
+        margin-bottom 10px
+    .connectionLink
+      display block

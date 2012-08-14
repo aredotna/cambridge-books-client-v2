@@ -19,8 +19,8 @@ class exports.LayerView extends Backbone.View
       layerClass: @layerClass()
 
     @contentView.render()
-    @delegateEvents()
     @$el.append @contentView.el
+    @delegateEvents()
     @$el.css
       top: @options.depth * 55
       zIndex: @options.depth
