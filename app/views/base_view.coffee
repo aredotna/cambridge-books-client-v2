@@ -4,6 +4,8 @@ class exports.BaseView extends Backbone.View
 
   initialize: ->
     @model.bind "loaded", @setViews, @
+    $('#base').masonry(itemSelector:'.blockCont', gutter: 20)
+    $(window).resize => @render()
     @setViews()
 
   render: ->
@@ -11,6 +13,11 @@ class exports.BaseView extends Backbone.View
     _.each @blockViews, (view)=>
       view.render()
       view.$el.appendTo(@$el)
+    @$el.imagesLoaded => @masonry()
+    @masonry()
+
+  masonry: ->
+    $('#base').masonry('reload')
 
   setViews: ->
     @blockViews = @model.bySelection().map (block) ->

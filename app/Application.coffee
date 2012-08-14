@@ -13,7 +13,7 @@ class exports.Application
 
   defaults: {}
   
-  adminIds: [228, 235] 
+  adminIds: [228, 235, 729] 
 
   initialize: (options)->
     @options = {}

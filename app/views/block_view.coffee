@@ -3,6 +3,9 @@ template = require './templates/block'
 
 class exports.BlockView extends Backbone.View
 
+  attributes:
+    class: "blockCont"
+      
   events: 
     "click .connectionLink" : "openConnection"
 

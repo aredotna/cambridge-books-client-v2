@@ -3,7 +3,8 @@
   <li id="<%- @block.id %>" class="block <%- @block.block_type %>">
     
     <div class="content">
-      <% if @block.block_type is 'Image': %>
+    
+      <% if @block.block_type is "Image": %>
         <!-- IMAGE -->
         <img src="<%= @block.image.display %>" alt="<%= @block.title %>" />
 
@@ -35,7 +36,7 @@
 
     <% if @block.content isnt '' or @connectedChannels.length isnt 0: %>
       <div class="info h3">
-        <div class="title h3"><%- @block.title %></div>
+        <div class="title h3"><%- if @block.title then @block.title.toLowerCase() %></div>
         <% if @block.content isnt '': %>
           <div class="description">
             <%- @block.content %>
