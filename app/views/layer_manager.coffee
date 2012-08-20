@@ -9,13 +9,12 @@ class exports.LayerManager extends Backbone.View
 	render: ->
 		@$el.html('')
 		@layers.forEach (layer)=>
-			layer.render() 
+			layer.render()
 			@$el.append layer.el 
 
 		if @layers.length > 0
-			last = $(@layers[@layers.length - 1].el)
-			$('#mainWrapper').css
-				height: last.position().top + last.height() 
+			@setPageSize()
+
 		else
 			$('#mainWrapper').css
 				height: 'auto'
@@ -27,6 +26,7 @@ class exports.LayerManager extends Backbone.View
 			manager: @
 		contentView.layer = layer
 
+		contentView.model.bind 'loaded', @setPageSize, @
 		layer.bind 'layer:close', @removeLayer, @
 
 		@layers.push(layer)
@@ -34,6 +34,13 @@ class exports.LayerManager extends Backbone.View
 		
 		$('body').clearQueue().animate
 			scrollTop: @layers[@layers.length-1].$el.offset().top
+
+	setPageSize: ->
+		last = $(@layers[@layers.length - 1].el)
+		$(last).imagesLoaded =>
+			$('#mainWrapper').css
+				height: last.position().top + last.height() 
+
 
 	removeLayer: (layer)->
 		layerIndex = @layers.indexOf layer
