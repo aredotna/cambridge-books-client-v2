@@ -20,6 +20,7 @@ class exports.Application
     _.extend(@options, options)
     @layerManager = new LayerManager el: $('#layers')
     @router = new MainRouter()
+    @appView = new AppView el: $('body')
     @navViw = new NavView model: new Channel(null, slug: @options.rootChannel), el: $('#mainNav')
     @baseView = new BaseView model: new Channel(null, slug: @options.baseChannel), el: $('#base')
     Backbone.history.start()
