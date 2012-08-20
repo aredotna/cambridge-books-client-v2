@@ -22,7 +22,7 @@ body
 
 
 p
-  margin 0 0 1em
+  margin 0 0 12px
 
 a, a:hover, a:active, a:visited
   color inherit
@@ -30,7 +30,7 @@ a, a:hover, a:active, a:visited
   cursor pointer
   position relative
   &:hover
-    top: 1px
+    margin-top: 1px
 
 li
   list-style none
@@ -66,7 +66,17 @@ h6, .h6
   font-weight bold
 
 
+#topArrow
+  position: fixed;
+  bottom: 16px;
+  left: 12px;
+  font-size: 16px;
+  z-index 9999
+  color red
+  display none
+
 #mainWrapper 
+  position relative
   overflow hidden
 
 #content
@@ -92,36 +102,50 @@ h6, .h6
   left 13px
 
 
-#base 
+#base
+  h3, .h3, h2, .h2
+    font-family arial
   ::selection
     background-color rgba(255,255,255,1)
     color black
     opacity 1
-  margin-top 50px
   box-sizing content-box
   padding-bottom 100px
-  margin 30px auto 0 auto
+  margin 48px auto 0 auto
   color white
   .block
+    -webkit-transition .25s
+    width 360px
     .connections
       display none
       margin-bottom 0px
     &.Channel
+      padding-bottom 36px
+      text-transform capitalize
       .title
         display none
-    &.Image 
-      margin-bottom 30px
+      a
+        background-color white
+        color black
+        padding 3px 10px
+    &.Image
+      margin-bottom 36px
       text-align center
+      img
+        max-width 100%
       .title
-        font 12px/13px times
+        font 12px/13px arial
         letter-spacing 1px
+        border-bottom none
+        -webkit-transform none
+        text-align: left
+        margin-bottom 0px
 
   .blockCont
     float left
-    width 300px
-    margin 0px 20px
+    margin 0px 36px
     img
-      max-width 100%
+      max-width 720px
       margin-top 10px
       margin-bottom 5px
     .info 
@@ -129,12 +153,13 @@ h6, .h6
     .title
       text-align left
       font-family arial
-      font-size 36px
-      line-height 44px
-      margin-bottom: 10px
+      border-bottom 1px solid white
       text-transform capitalize
+      margin-bottom 12px
+      padding-bottom 2px
+
     .description
-      padding-bottom 30px
+      padding-bottom 24px
       a
         border-bottom 1px solid white
       ul
@@ -194,6 +219,8 @@ h6, .h6
 .block
   &.Channel
     cursor pointer
+  .connectionLink
+    display block
 
 .menu 
   .block 
@@ -235,6 +262,9 @@ h6, .h6
     &.Text
       float none
       width 440px
+    &.Image
+      .content
+        text-align right
     .title
       text-transform capitalize
       float none
@@ -246,8 +276,12 @@ h6, .h6
       margin-right 200px
       img
         max-width 100%
+    .connections
+      margin-top 32px
+
     .connectionLink
-      display block
+      font-style:italic
+
 
 .single
   .block
