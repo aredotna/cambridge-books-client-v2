@@ -4,7 +4,7 @@ class exports.BaseView extends Backbone.View
 
   initialize: ->
     @model.bind "loaded", @setViews, @
-    $('#base').masonry(itemSelector:'.blockCont', gutter: 20)
+    @$el.masonry(itemSelector:'.blockCont', gutter: 36)
     $(window).resize => @render()
     @setViews()
 
@@ -27,6 +27,9 @@ class exports.BaseView extends Backbone.View
 
   center: ->
     wW = $(window).width()
-    cW = 340
+    cW = 433
+    numColumns = Math.floor(wW/cW)
+    if numColumns > $('#base').find('.block').length
+      numColumns = $('#base').find('.block').length
     $('#base').css
-      width: Math.floor(wW / cW) * cW
+      width: Math.floor(numColumns * cW)
