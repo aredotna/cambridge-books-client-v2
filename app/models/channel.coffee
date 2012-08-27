@@ -12,7 +12,7 @@ class exports.Channel extends Backbone.Collection
     "http://are.na/api/v1/channels/#{@options.slug}.json?callback=?"
 
   comparator:(block) ->
-    block.position
+    block.get 'position'
   
   initialize: (items, options)->
     @options = _.extend({}, @defaults, options)
@@ -23,12 +23,11 @@ class exports.Channel extends Backbone.Collection
     @_filtered (block) ->
         block.get('arrangement') is selection
 
-
   loadBlocks: (depth=0) ->
     $.getJSON @url(),
       (blocks)=>
         @attributes = _.clone blocks
-
+        newBlocks =
         @add(blocks.blocks, silent:true)
         @add(blocks.channels, silent: true)
 
@@ -41,7 +40,6 @@ class exports.Channel extends Backbone.Collection
               @channel = new Channel null, 
 	              slug:block.get('slug')
 	                depth: channel.options.depth - 1
-
 
 
   _filtered: (criteria) ->
