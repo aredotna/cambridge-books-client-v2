@@ -6,6 +6,7 @@ body
   min-height 100%
   background black
   font  16px "Times New Roman", Times, serif
+  text-rendering optimizeLegibility
 
 
 
@@ -240,7 +241,7 @@ h6, .h6
         background-color #ccc
         cursor default
 
-.list
+.channelCont:not(.artists-projects) > .channelView:not(.menu)
   width 1200px
   margin 0 auto
   hr
@@ -283,8 +284,9 @@ h6, .h6
       font-style:italic
 
 
-.single
+.single, .artists-projects .list
   .block
+    float none
     .description
       width 500px
     margin-bottom 50px
