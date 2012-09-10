@@ -34,6 +34,7 @@ class exports.LayerManager extends Backbone.View
 		
 		$('body').clearQueue().animate
 			scrollTop: @layers[@layers.length-1].$el.offset().top
+		, 500
 
 	setPageSize: ->
 		last = $(@layers[@layers.length - 1].el)
