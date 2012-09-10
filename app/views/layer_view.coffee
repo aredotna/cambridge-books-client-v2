@@ -19,7 +19,7 @@ class exports.LayerView extends Backbone.View
       layerClass: @layerClass()
 
     @contentView.render()
-    @$el.append @contentView.el
+    @$('.channelCont').append @contentView.el
     @delegateEvents()
     @$el.css
       top: @options.depth * 55
