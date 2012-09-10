@@ -1,3 +1,4 @@
+<% console.log @block %>
 <% if @block.block_type isnt "Channel" or @block.published is true: %>
  
   <li id="<%- @block.id %>" class="block <%- @block.block_type %>">
@@ -42,7 +43,7 @@
 
         <% if @block.description or @block.content: %>
           <div class="description">
-            <%- if @block.content then @block.content else @block.description %>
+            <%- @block.description or @block.content %>
           </div>
         <% end %>
 
