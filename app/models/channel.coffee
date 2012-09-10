@@ -38,8 +38,8 @@ class exports.Channel extends Backbone.Collection
           @each (block)->
             if block.get('block_type') is "Channel" and block.get('published')
               @channel = new Channel null, 
-	              slug:block.get('slug')
-	                depth: channel.options.depth - 1
+                slug:block.get('slug')
+                  depth: channel.options.depth - 1
 
 
   _filtered: (criteria) ->
