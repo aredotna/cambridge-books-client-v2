@@ -1,24 +1,31 @@
 {BlockView} = require './block_view'
+template = require 'views/templates/base'
 
 class exports.BaseView extends Backbone.View
 
+  template: template
+
   initialize: ->
     @model.bind "loaded", @setViews, @
-    @$el.masonry(itemSelector:'.blockCont', gutter: 36)
     $(window).resize => @render()
     @setViews()
 
   render: ->
-    @$el.html('')
+    @$el.html @template()
+
     _.each @blockViews, (view)=>
       view.render()
-      view.$el.appendTo(@$el)
+      view.$el.appendTo(@$('#baseInner'))
+
+    @$('#baseInner').masonry(itemSelector:'.blockCont', gutter: 36)
+
     @$el.imagesLoaded => @masonry()
     @masonry()
     @center()
 
   masonry: ->
-    $('#base').masonry('reload')
+    @$('#baseInner').masonry('reload')
+
 
   setViews: ->
     @blockViews = @model.bySelection().map (block) ->
@@ -31,5 +38,8 @@ class exports.BaseView extends Backbone.View
     numColumns = Math.floor(wW/cW)
     if numColumns > $('#base').find('.block').length
       numColumns = $('#base').find('.block').length
-    $('#base').css
-      width: Math.floor(numColumns * cW)
+    if numColumns isnt 0
+      $('#baseInner').css
+        width: Math.floor(numColumns * cW)
+    else
+      width: wW
