@@ -61,7 +61,7 @@ class exports.ChannelView extends Backbone.View
     @delegateEvents()
 
   _setChannelClass: ->
-    type = @view
+    type = ''
     @model.each (block) ->
       if block.get('block_type') is "Channel"
         type = "menu"
