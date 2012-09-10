@@ -13,9 +13,9 @@ class exports.ChannelView extends Backbone.View
   initialize: ->
     @template = template
     @model.bind "add", @setViews, @
+    @model.bind "loaded", @stopLoader, @
     @view = "list"
     @setViews()
-    @model.bind "loaded", @stopLoader, @
     @animateLoader(0)
 
   animateLoader: (step)->
@@ -54,9 +54,9 @@ class exports.ChannelView extends Backbone.View
       blockLength: @blockViews.length
 
     _.each @blockViews, (view, num)=>
-      if @channelClass == "menu" || num !=0
-        view.render()
-        @$el.find('.channelView').append view.el
+      view.render()
+      if num is 0 then $(view.el).addClass 'logo'
+      @$el.find('.channelView').append view.el
 
     @delegateEvents()
 
