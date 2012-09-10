@@ -1,7 +1,6 @@
 <% if @block.block_type isnt "Channel" or @block.published is true: %>
  
   <li id="<%- @block.id %>" class="block <%- @block.block_type %>">
-    
     <div class="content">
 
       <% if @block.block_type is "Image": %>
@@ -41,9 +40,9 @@
           <div class="title h3"><%- @block.title?.toLowerCase() %></div>
         <% end %>
 
-        <% if @block.content: %>
+        <% if @block.description or @block.content: %>
           <div class="description">
-            <%- @block.content %>
+            <%- if @block.content then @block.content else @block.description %>
           </div>
         <% end %>
 
