@@ -63,7 +63,6 @@ class exports.LayerManager extends Backbone.View
 		@layerNames().join('/')
 
 	setFromPath: (path)->
-
 		channelNames = if path then path.split('/') else []
 		layerNames = @layers.map (layer)-> layer.name() 
 
@@ -72,6 +71,8 @@ class exports.LayerManager extends Backbone.View
 
 		_.difference(channelNames, layerNames).forEach (channelName)=>
 			app.addChannel(channelName)
+
+		app.resetUrl()
 
 	_layerByName: (name)->
 		_.filter @layers, (layer)->  layer.name() is name
