@@ -1,4 +1,5 @@
 {Channel} = require('models/channel')
+
 {ChannelView} = require('views/channel_view')
 
 class exports.MainRouter extends Backbone.Router
@@ -15,18 +16,12 @@ class exports.MainRouter extends Backbone.Router
     app.layerManager.setFromPath(slug)
 
   block: (slug, block)->
-    channels = @channel(slug)
+    app.layerManager.setFromPath(slug)
     block = parseInt(block)
-    last = channels.pop()
+    app.addBlock block
+    @navigateRelative "show:#{block}"
 
-    last.bind 'loaded', _.bind((data)->
-      channel = data[0]
-      block = data[1]
-      app.openBlock channel.where(id:block)[0]
-    , this, [last, block])
-
-
-  navigateRelative: (slug)->
+  navigateRelative: (slug, options)->
     path = Backbone.history.fragment
     path = path + '/' + slug
-    @navigate path
+    @navigate path, options
