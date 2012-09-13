@@ -1,2 +1,1 @@
-<p class="title h1 topLink"><%- @title %></p>
 <ul class="channelView <%- @channelClass %>"></ul>

@@ -1,2 +1,3 @@
 <a class="close">&times;</a>
+<p class="title h1 topLink"><%- @title %></p>
 <div class="channelCont <%- @layerClass %>"></div>
