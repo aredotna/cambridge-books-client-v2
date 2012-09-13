@@ -1,13 +1,14 @@
 html
-  min-height 100%
+  height 100%
   text-rendering optimizeLegibility
 
 body
-  min-height 100%
+  height 100%
+  position relative
   font  16px "Times New Roman", Times, serif
   text-rendering optimizeLegibility
-  background-color black
-
+  background-color #150C2E
+  min-width 1220px
 
 
 ::selection
@@ -25,6 +26,9 @@ body
 p
   margin 0 0 12px
 
+em
+  font-style italic
+
 a, a:hover, a:active, a:visited
   color inherit
   text-decoration none
@@ -37,19 +41,21 @@ li
   list-style none
 
 h1, .h1
-  font 13px/16px arial, sans-serif
-  letter-spacing 3px
+  font-family arial
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 1px;
 
-h2, .h2
-  font 36px/44px "Times News Roman", Times, serif
-  letter-spacing 3px
 
 h3, .h3
   font 16px/20px "Times New Roman", Times, serif
   letter-spacing 1px
   word-spacing -1px
 
+
 h4, .h4
+  font 10px/12px arial, sans-serif
+  letter-spacing 1px
 
 h5, .h5
 
@@ -79,6 +85,7 @@ h6, .h6
 #mainWrapper 
   position relative
   overflow hidden
+  min-height 100%
 
 #content
   margin 0 auto
@@ -90,7 +97,6 @@ h6, .h6
   padding 20px
   li
     display inline-block
-    text-transform capitalize
     margin 0px 10px
     cursor pointer
 
@@ -107,6 +113,10 @@ h6, .h6
   color white
   h3, .h3, h2, .h2
     font-family arial
+  h3, .h3, h2, .h2
+    font-size 14px
+    line-height 20px
+    letter-spacing 1px
   ::selection
     background-color rgba(255,255,255,1)
     color black
@@ -124,13 +134,12 @@ h6, .h6
     .connectionLink
       display block
     &.Channel
-      padding-bottom 36px
-      text-transform capitalize
-      .title
+      padding 5px 0px
+      margin-bottom 10px
+      border: 1px solid white
+      .titleWrapper
         display none
       a
-        background-color white
-        color black
         padding 3px 10px
     &.Image
       margin-bottom 36px
@@ -154,17 +163,18 @@ h6, .h6
       margin-bottom 5px
     .info 
       width auto
-    .title
+    .titleWrapper
       text-align left
       font-family arial
       border-bottom 1px solid white
-      text-transform capitalize
       margin-bottom 12px
       padding-bottom 2px
 
     .description
       padding-bottom 24px
       a
+        padding-bottom 0px
+        margin-bottom 0px
         border-bottom 1px solid white
       ul
         li
@@ -179,24 +189,32 @@ h6, .h6
            left 0px
            top: 0px
 
-  footer
-    margin-top 100px
-    font-family arial
-    height: 73px
-    padding-top: 44px
-    font-size: 15px
-    background: #000000; /* Old browsers */
-    background: -moz-linear-gradient(top, #000000 0%, #1f00d1 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#000000), color-stop(100%,#1f00d1)); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top, #000000 0%,#1f00d1 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(top, #000000 0%,#1f00d1 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(top, #000000 0%,#1f00d1 100%); /* IE10+ */
-    background: linear-gradient(to bottom, #000000 0%,#1f00d1 100%); /* W3C */
-    text-align right
-    padding-right 20px
-    img
-      height 13px
-      width auto
+
+$bottomBlue = #1f00d1
+$gradientColor = black
+footer
+  position absolute 
+  bottom 0px
+  left 0px
+  width 100%
+  color white
+  margin-top 100px
+  font-family arial
+  height: 73px
+  padding-top: 44px
+  font-size: 15px
+  background: #150C2E; /* Old browsers */
+  background: -moz-linear-gradient(top, #150C2E 0%, $gradientColor 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#150C2E), color-stop(100%, $gradientColor)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #150C2E 0%,$gradientColor 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #150C2E 0%,$gradientColor 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #150C2E 0%,$gradientColor 100%); /* IE10+ */
+  background: linear-gradient(to bottom, #150C2E 0%,$gradientColor 100%); /* W3C */
+  text-align right
+  padding-right 20px
+  img
+    height 13px
+    width auto
 
 
 .layer
@@ -208,7 +226,7 @@ h6, .h6
   box-sizing border-box
   min-height 1000px
   box-shadow 0px 0px 24px 5px rgba(0, 0, 0, .3)
-  .title.h1
+  .title.topLink
     text-align center
     margin 0
     padding 20px
@@ -241,20 +259,21 @@ h6, .h6
   .connectionLink
     display block
 
-.menu 
+.menu
   .block 
     height auto
     width auto
     float none
-    text-transform capitalize
-    cursor pointer
     &.Channel
+      cursor pointer
       padding 0px
     &.Image
       padding-bottom 0px
       .title
         margin-top: 10px
         display block
+      .info
+        margin-top 10px
     .title
       display none
     .connections
@@ -268,13 +287,16 @@ h6, .h6
 
 
 .channelCont:not(.artists-projects) .channelView:not(.menu)
-  width 1200px
+  width 1100px
   margin 0 auto
   hr
     display none
   .blockCont
     padding-bottom 5px
     overflow auto
+    a:hover
+      border-bottom-color blue
+      color blue
     &::after
       display block
       clear both
@@ -287,7 +309,7 @@ h6, .h6
       display none
       content ''
     &.logo
-      margin-top 50px
+      margin-top 125px
       margin-bottom 200px
       &::after
         display none
@@ -317,20 +339,22 @@ h6, .h6
         text-align right
     img
       box-shadow 4px 4px 12px rgba(0, 0, 0, .3)
-    .title
-      text-transform capitalize
-      border-bottom 1px solid black
+    .titleWrapper
       float left
       clear both
       word-spacing 0px
       margin-bottom 16px
+    .title
+      border-bottom 1px solid black
+      padding-bottom 1px
+      display inline
     .description
       clear both
     .content, .info
       float left
       width  500px
     .content
-      margin-right 200px
+      margin-right 100px
       img
         max-width 100%
     .connections
@@ -341,6 +365,8 @@ h6, .h6
 
 
 .single, .artists-projects .list, .classroom, .locations
+  a:hover
+    color blue
   .block
     float none
     width 600px
@@ -351,8 +377,8 @@ h6, .h6
     margin-bottom 50px
     &.Image
       width 100%
-      img
-        margin-bottom 10px
+      .info
+        margin-top 10px
     .connectionLink
       display block
 
