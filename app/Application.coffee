@@ -36,6 +36,13 @@ class exports.Application
     @layerManager.addLayer(view)
     channel
 
+  addBlock: (id)->
+    block = new Block id: id
+    view = new BlockView model: block
+    view.$el.addClass('channelView')
+    @layerManager.addLayer(view)
+    block
+
   resetUrl: ->
     @router.navigate @layerManager.toPath()
 
