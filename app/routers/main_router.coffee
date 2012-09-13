@@ -9,6 +9,9 @@ class exports.MainRouter extends Backbone.Router
     "*channels/show::block" : "block"
     "*channels":"channel"
 
+  initialize: ->
+    @bind 'all', @_trackPageview()
+
   index: ->
     app.layerManager.setFromPath()
 
@@ -25,3 +28,7 @@ class exports.MainRouter extends Backbone.Router
     path = Backbone.history.fragment
     path = path + '/' + slug
     @navigate path, options
+
+  _trackPageview: ->
+    url = Backbone.history.getFragment()
+    _gaq.push(['_trackPageview', "/#{url}"])
