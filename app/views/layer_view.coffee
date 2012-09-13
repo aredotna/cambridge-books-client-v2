@@ -13,10 +13,17 @@ class exports.LayerView extends Backbone.View
     @template = template
     @manager = @options.manager
     @contentView = @options.contentView
+    @contentView.model.bind 'loaded', @onLoad, @
+    @animateLoader(0)
+
+  onLoad: ->
+    @stopLoader()
+    @render()
 
   render: ->
     @$el.html @template
       layerClass: @layerClass()
+      title: @contentView.title()
 
     @contentView.render()
     @$('.channelCont').append @contentView.el
@@ -25,6 +32,19 @@ class exports.LayerView extends Backbone.View
       top: @options.depth * 55
       zIndex: @options.depth
       backgroundColor: 'white'
+
+  animateLoader: (step)->
+    if (step > 3) then step = 0
+    html = 'Loading'
+    (html += '.') for i in [0..step]
+    @$el.find('.title').html(html)
+    @loaderTimer = setTimeout =>
+      @animateLoader(step + 1)
+    , 300
+
+  stopLoader: ->
+    clearTimeout(@loaderTimer)
+    @render()
 
   makeTop: ->
     @manager.setTop(this)
