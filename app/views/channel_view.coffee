@@ -6,6 +6,7 @@ class exports.ChannelView extends Backbone.View
   events:
     "click .block.Channel"  : "openChannel"
     "click .title"          : "makeTop"
+    "click .permalink"      : "openBlock"
 
   name: ->
     @model.options.slug
@@ -16,16 +17,6 @@ class exports.ChannelView extends Backbone.View
     @model.bind "loaded", @stopLoader, @
     @view = "list"
     @setViews()
-    @animateLoader(0)
-
-  animateLoader: (step)->
-    if (step > 3) then step = 0
-    html = 'Loading'
-    (html += '.') for i in [0..step]
-    @$el.find('.title').html(html)
-    @loaderTimer = setTimeout =>
-      @animateLoader(step + 1)
-    , 300
 
   setViews: ->
     @blockViews = @model.bySelection().map (block) ->
@@ -33,15 +24,16 @@ class exports.ChannelView extends Backbone.View
     @_setChannelClass()
     @render()
 
-  stopLoader: ->
-    clearTimeout(@loaderTimer)
-    @render()
-    
   openChannel: (e)->
-      id = parseInt($(e.currentTarget).attr('id'))
-      block = @model.where(id:id)[0]
-      app.openChannel(block.get('slug'))
-      false
+    id = parseInt($(e.currentTarget).attr('id'))
+    block = @model.where(id:id)[0]
+    app.openChannel(block.get('slug'))
+    false
+
+  openBlock: (e)->
+    id = parseInt $(e.currentTarget).closest('li').attr('id')
+    app.router.navigateRelative 'show:' + id, trigger: true
+    false
 
   makeTop: ->
     @layer.makeTop()
@@ -66,4 +58,7 @@ class exports.ChannelView extends Backbone.View
       if block.get('block_type') is "Channel"
         type = "menu"
     @channelClass = type
+
+  title: ->
+    @model.attributes?.title
 
