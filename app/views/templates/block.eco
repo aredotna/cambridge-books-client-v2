@@ -1,6 +1,6 @@
-<% console.log @block %>
 <% if @block.block_type isnt "Channel" or @block.published is true: %>
  
+
   <li id="<%- @block.id %>" class="block <%- @block.block_type %>">
     <div class="content">
 
@@ -24,7 +24,7 @@
 
       <% else if @block.block_type is 'Channel': %>
           <!-- CHANNEL -->
-          <a class="h2 channelLink" href="#/<%- @block.slug %>"><%- @block.title.toLowerCase() %></a>
+          <a class="h3 channelLink" href="#/<%- @block.slug %>"><%- @block.title %></a>
 
 
       <% else if @block.block_type is "Media": %>
@@ -37,8 +37,8 @@
     <% if @block.content isnt '' or @connectedChannels.length isnt 0: %>
       <div class="info h3">
 
-        <%  if @block.title: %>
-          <div class="title h3"><%- @block.title?.toLowerCase() %></div>
+        <% if @block.title: %>
+          <div class="titleWrapper h3"><a class="title permalink"><%- @block.title %></a></div>
         <% end %>
 
         <% if @block.description or @block.content: %>
@@ -51,7 +51,7 @@
           <div class="connections">
             <p class="h3">Also belongs to:</p>
             <% for connection in @connectedChannels: %>
-                <a class="connectionLink channelLink" data-slug="<%- connection.channel.slug %>"><%- connection.channel.title %></a>
+               <a class="connectionLink channelLink" data-slug="<%- connection.channel.slug %>">&mdash; <%- connection.channel.title %></a>
             <% end %>
           </div>
         <% end %>

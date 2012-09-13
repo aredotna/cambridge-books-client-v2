@@ -1,6 +1,7 @@
-
 <% for block in @blocks: %>
+
   <% if block.block_type == "Channel": %>
-    <li><a href="#/<%- block.slug %>"><%- block.title.toLowerCase() %></a></li>
+    <li><a href="#<%- block.slug %>"><%- block.title %></a></li>
   <% end %>
+
 <% end %>
