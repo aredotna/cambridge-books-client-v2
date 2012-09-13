@@ -1,7 +1,14 @@
 
 class exports.Block extends Backbone.Model
 
+  url: ->
+    "http://are.na/api/v1/blocks/#{@id}.json?callback=?"
+
   initialize: ->
+    if not @get 'block_type'
+      @fetch
+        success: =>
+          @trigger 'loaded'
     @_setArrangementPosition()
 
   connectedChannels: ->
@@ -17,7 +24,7 @@ class exports.Block extends Backbone.Model
     _.find @get('connections'), (connection) => connection.channel_id is @collection.attributes.id
 
   _isinArrangement: ->
-    if @_channelConnection().connection_type is 'Arrangement'
+    if @_channelConnection()?.connection_type is 'Arrangement'
       @set({arrangement: true})
       return true
     else
