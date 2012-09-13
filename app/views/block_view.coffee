@@ -11,7 +11,7 @@ class exports.BlockView extends Backbone.View
 
   initialize: ->
     @template = template
-    @model.bind "update", @render, @
+    @model.bind "change", @render, @
 
   openConnection: (e)->
     slug = $(e.target).data('slug')
@@ -22,3 +22,9 @@ class exports.BlockView extends Backbone.View
       block: @model.toJSON()
       connectedChannels: @model.connectedChannels()
     @delegateEvents()
+
+  name: ->
+    @model.get 'title'
+
+  title: ->
+    @model.get 'title'
