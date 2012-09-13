@@ -26,9 +26,6 @@ class exports.LayerManager extends Backbone.View
 			manager: @
 		contentView.layer = layer
 
-		contentView.model.bind 'loaded', @setPageSize, @
-		layer.bind 'layer:close', @removeLayer, @
-
 		@layers.push(layer)
 		@render()
 		
@@ -36,12 +33,17 @@ class exports.LayerManager extends Backbone.View
 			scrollTop: @layers[@layers.length-1].$el.offset().top
 		, 500
 
+		contentView.model.bind 'loaded', @setPageSize, @
+		layer.bind 'layer:close', @removeLayer, @
+
 	setPageSize: ->
 		last = $(@layers[@layers.length - 1].el)
-		$(last).imagesLoaded =>
-			$('#mainWrapper').css
-				height: last.position().top + last.height() 
-
+		last.find('.block').each (i, el)=>
+			$(el).imagesLoaded =>
+				height = last.position().top + last.height() 
+				if height < 1000 then height = 1000
+				$('#mainWrapper').css
+					height: height
 
 	removeLayer: (layer)->
 		layerIndex = @layers.indexOf layer
