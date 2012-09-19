@@ -30,5 +30,5 @@ class exports.MainRouter extends Backbone.Router
     @navigate path, options
 
   _trackPageview: ->
-    url = Backbone.history.getFragment()
+    url = app.layerManager.toPath()
     _gaq.push(['_trackPageview', "/#{url}"])
