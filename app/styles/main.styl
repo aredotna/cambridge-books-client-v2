@@ -72,6 +72,11 @@ h6, .h6
   font-size 24px
   font-weight bold
 
+.sourceLink
+  display block
+  clear both
+  border-bottom 1px solid black
+  float left
 
 #topArrow
   position: fixed;
@@ -109,7 +114,12 @@ h6, .h6
   left 13px
 
 
+.Image .sourceLink
+  display none
+
 #base
+  .sourceLink
+    display none
   color white
   h3, .h3, h2, .h2
     font-family arial
@@ -141,7 +151,7 @@ h6, .h6
         display none
       a
         padding 3px 10px
-    &.Image
+    &.Image, &.Link
       margin-bottom 36px
       text-align center
       img
@@ -267,7 +277,7 @@ footer
     &.Channel
       cursor pointer
       padding 0px
-    &.Image
+    &.Image, &.Link
       padding-bottom 0px
       .title
         margin-top: 10px
@@ -286,7 +296,8 @@ footer
 
 
 
-.channelCont:not(.artists-projects) .channelView:not(.menu)
+.channelCont:not(.artists-projects) .channelView:not(.menu),
+.channelCont:not(.classroom) .channelView:not(.menu),
   width 1100px
   margin 0 auto
   hr
@@ -317,7 +328,7 @@ footer
         width 500px
         margin 0 auto
         text-align center
-        &.Image
+        &.Image, &.Link
           img
             box-shadow none
           .content 
@@ -330,11 +341,12 @@ footer
           float none
           border 0
 
+
   .block
     &.Text
       float none
       width 440px
-    &.Image
+    &.Image, &.Link
       .content
         text-align right
     img
@@ -375,7 +387,7 @@ footer
     .description
       width 500px
     margin-bottom 50px
-    &.Image
+    &.Image, &.Link
       width 100%
       .info
         margin-top 10px
