@@ -27,11 +27,13 @@ class exports.Application
 
   openChannel: (slug)->
     @addChannel(slug)
+    @router.trackPageview(slug)
     @resetUrl()
 
   addChannel: (slug)->
     channel = new Channel null,
       slug: slug
+
     view = new ChannelView(model:channel)
     @layerManager.addLayer(view)
     channel

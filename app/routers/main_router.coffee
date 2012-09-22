@@ -10,16 +10,18 @@ class exports.MainRouter extends Backbone.Router
     "*channels":"channel"
 
   initialize: ->
-    @bind 'all', @_trackPageview()
+    #@bind 'all', @_trackPageview()
 
   index: ->
     app.layerManager.setFromPath()
 
   channel: (slug)->
     app.layerManager.setFromPath(slug)
+    @trackPageview(slug)
 
   block: (slug, block)->
     app.layerManager.setFromPath(slug)
+    @trackPageview()
     block = parseInt(block)
     app.addBlock block
     @navigateRelative "show:#{block}"
@@ -29,6 +31,7 @@ class exports.MainRouter extends Backbone.Router
     path = path + '/' + slug
     @navigate path, options
 
-  _trackPageview: ->
-    url = app.layerManager.toPath()
+  trackPageview: (slug)->
+    url = '/#' + slug
+    console.log url
     _gaq.push(['_trackPageview', "/#{url}"])
