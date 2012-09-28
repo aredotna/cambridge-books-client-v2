@@ -7,7 +7,7 @@ class exports.BaseView extends Backbone.View
 
   initialize: ->
     @model.bind "loaded", @setViews, @
-    $(window).resize => @render()
+    $(window).resize => @center()
     @setViews()
 
   render: ->
@@ -25,7 +25,6 @@ class exports.BaseView extends Backbone.View
 
   masonry: ->
     @$('#baseInner').masonry('reload')
-
 
   setViews: ->
     @blockViews = @model.bySelection().map (block) ->

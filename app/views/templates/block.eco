@@ -41,10 +41,14 @@
           <div class="titleWrapper h3"><a class="title permalink"><%- @block.title %></a></div>
         <% end %>
 
-        <% if @block.description or @block.content: %>
+        <% if @block.description or @block.content or @block.description_html: %>
           <div class="description">
-            <%- @block.description or @block.content %>
+            <%- @block.description or @block.content or @block.description_html %>
           </div>
+        <% end %>
+
+        <% if @block.source_url or @block.remote_source_url: %>
+          <a class="sourceLink" href="<%- @block.source_url or @block.remote_source_url %>">Source</a>
         <% end %>
 
         <% if @connectedChannels.length isnt 0: %>
