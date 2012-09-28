@@ -9,7 +9,7 @@ class exports.Channel extends Backbone.Collection
     autoload: true
 
   url: ->
-    "http://are.na/api/v1/channels/#{@options.slug}.json?callback=?"
+    "http://api.are.na/v1/channels/#{@options.slug}.json?callback=?"
 
   comparator:(block) ->
     block.get 'position'

@@ -2,7 +2,7 @@
 class exports.Block extends Backbone.Model
 
   url: ->
-    "http://are.na/api/v1/blocks/#{@id}.json?callback=?"
+    "http://api.are.na/v1/blocks/#{@id}.json?callback=?"
 
   initialize: ->
     if not @get 'block_type'
