@@ -1,6 +1,6 @@
 <% for block in @blocks: %>
 
-  <% if block.block_type == "Channel": %>
+  <% if block.class is "Channel": %>
     <li><a href="#<%- block.slug %>"><%- block.title %></a></li>
   <% end %>
 

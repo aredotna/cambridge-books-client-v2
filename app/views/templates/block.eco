@@ -1,61 +1,61 @@
-<% if @block.block_type isnt "Channel" or @block.published is true: %>
+<% if @block.class isnt "Channel" or @block.published is true: %>
  
 
-  <li id="<%- @block.id %>" class="block <%- @block.block_type %>">
+  <li id="<%- @block.id %>" class="block <%- @block.class %>">
     <div class="content">
 
-      <% if @block.block_type is "Image": %>
+      <% if @block.class is "Image": %>
         <!-- IMAGE -->
-        <img src="<%= @block.image.display %>" alt="<%= @block.title %>" />
+        <img src="<%= @block.image?.display?.url %>" alt="<%= @block.title %>" />
 
-      <% else if @block.block_type is 'Link': %>
+      <% else if @block.class is 'Link': %>
         <!-- LINK -->
-        <% if @block.image.display: %>
-            <img src="<%= @block.image.display %>" alt="<%= @block.title %>" />
+        <% if @block.image?.display?.url: %>
+            <img src="<%= @block.image?.display?.url %>" alt="<%= @block.title %>" />
 
         <% else: %>
           <p class="h3">
-            <a href="<%= @block.link_url %>" class="external url" target="_blank"><%= @block.link_url %></a>
+            <a href="<%= @block.source?.url %>" class="external url" target="_blank"><%= @block.source?.url %></a>
           </p>
         <% end %>
 
-      <% else if @block.block_type is 'Text': %>
+      <% else if @block.class is 'Text': %>
         <!-- TEXT -->
 
-      <% else if @block.block_type is 'Channel': %>
+      <% else if @block.class is 'Channel': %>
           <!-- CHANNEL -->
           <a class="h3 channelLink" href="#/<%- @block.slug %>"><%- @block.title %></a>
 
 
-      <% else if @block.block_type is "Media": %>
+      <% else if @block.class is "Media": %>
         <!-- MEDIA -->
-        <%- @block.embed_html %>
+        <%- @block.embed?.html %>
       <% end %>
 
     </div>
 
-    <% if @block.content isnt '' or @connectedChannels.length isnt 0: %>
+    <% if @block.content_html isnt '' or @connectedChannels.length isnt 0: %>
       <div class="info h3">
 
         <% if @block.title: %>
           <div class="titleWrapper h3"><a class="title permalink"><%- @block.title %></a></div>
         <% end %>
 
-        <% if @block.description or @block.content or @block.description_html: %>
+        <% if @block.description_html or @block.content_html or @block.description_html: %>
           <div class="description">
-            <%- @block.description or @block.content or @block.description_html %>
+            <%- @block.description_html or @block.content_html or @block.description_html %>
           </div>
         <% end %>
 
-        <% if @block.source_url or @block.remote_source_url: %>
-          <a class="sourceLink" href="<%- @block.source_url or @block.remote_source_url %>">Source</a>
+        <% if @block.source?.url or @block.remote_source_url: %>
+          <a class="sourceLink" href="<%- @block.source?.url or @block.source?.provider?.url %>">Source</a>
         <% end %>
 
         <% if @connectedChannels.length isnt 0: %>
           <div class="connections">
             <p class="h3">Also belongs to:</p>
             <% for connection in @connectedChannels: %>
-               <a class="connectionLink channelLink" data-slug="<%- connection.channel.slug %>">&mdash; <%- connection.channel.title %></a>
+               <a class="connectionLink channelLink" data-slug="<%- connection.slug %>">&mdash; <%- connection.title %></a>
             <% end %>
           </div>
         <% end %>

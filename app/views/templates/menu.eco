@@ -1,6 +1,6 @@
 <ul>
 	<% for block in @blocks: %>
-		<% if block.block_type is "Channel": %>
+		<% if block.class is "Channel": %>
 			<li class="menuItem">
 				<a href="<%- block.slug %>"><%- block.title %></a>
 			</li>

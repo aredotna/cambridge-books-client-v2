@@ -55,7 +55,7 @@ class exports.ChannelView extends Backbone.View
   _setChannelClass: ->
     type = ''
     @model.each (block) ->
-      if block.get('block_type') is "Channel"
+      if block.get('class') is "Channel"
         type = "menu"
     @channelClass = type
 

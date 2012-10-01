@@ -2,31 +2,21 @@
 class exports.Block extends Backbone.Model
 
   url: ->
-    "http://api.are.na/v1/blocks/#{@id}.json?callback=?"
+    "http://api.are.na/v2/blocks/#{@id}.json"
 
   initialize: ->
-    if not @get 'block_type'
+    if not @get 'class'
       @fetch
         success: =>
           @trigger 'loaded'
-    @_setArrangementPosition()
 
   connectedChannels: ->
+    slug = @collection.attributes.slug
     _.filter @get('connections'), (connection)=>
-      @collection.attributes['slug'] != connection.channel.slug &&
-      connection.channel.published == true && 
+      slug isnt connection.slug and
+      connection.published is true and 
       _.include app.adminIds, connection.user_id
 
-  _setArrangementPosition: ->
-    @set({position: @_channelConnection().position}) if @_isinArrangement()
-
   _channelConnection: =>
-    _.find @get('connections'), (connection) => connection.channel_id is @collection.attributes.id
-
-  _isinArrangement: ->
-    if @_channelConnection()?.connection_type is 'Arrangement'
-      @set({arrangement: true})
-      return true
-    else
-      @set({arrangement: false})
-      return false
+    _.find @get('connections'), (connection) => 
+      connection.channel_id is @collection.attributes.id

@@ -9,7 +9,7 @@ class exports.Channel extends Backbone.Collection
     autoload: true
 
   url: ->
-    "http://api.are.na/v1/channels/#{@options.slug}.json?callback=?"
+    "http://api.are.na/v2/channels/#{@options.slug}.json"
 
   comparator:(block) ->
     block.get 'position'
@@ -17,29 +17,17 @@ class exports.Channel extends Backbone.Collection
   initialize: (items, options)->
     @options = _.extend({}, @defaults, options)
     if @options.autoload
-      @loadBlocks(@options.depth)
+      @loadBlocks()
 
   bySelection: (selection=true) ->
     @_filtered (block) ->
-        block.get('arrangement') is selection
+        block.get('selected') is true
 
   loadBlocks: (depth=0) ->
-    $.getJSON @url(),
-      (blocks)=>
-        @attributes = _.clone blocks
-        newBlocks =
-        @add(blocks.blocks, silent:true)
-        @add(blocks.channels, silent: true)
-
-        @trigger('add')
-        @trigger('loaded')
-        
-        if depth
-          @each (block)->
-            if block.get('block_type') is "Channel" and block.get('published')
-              @channel = new Channel null, 
-                slug:block.get('slug')
-                  depth: channel.options.depth - 1
+    $.getJSON @url(), {}, (blocks)=>
+      @attributes = _.clone blocks
+      @add(blocks.contents)
+      @trigger('loaded')
 
 
   _filtered: (criteria) ->
