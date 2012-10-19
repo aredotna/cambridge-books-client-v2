@@ -6,6 +6,8 @@ class exports.MainRouter extends Backbone.Router
 
   routes :
     "": "index"
+    "show/:block" : "rootBlock"
+    "*channels/show/:block" : "block"
     "*channels/show::block" : "block"
     "*channels":"channel"
 
@@ -24,7 +26,10 @@ class exports.MainRouter extends Backbone.Router
     @trackPageview()
     block = parseInt(block)
     app.addBlock block
-    @navigateRelative "show:#{block}"
+    @navigateRelative "show/#{block}"
+
+  rootBlock: (block)->
+    app.addBlock(block)
 
   navigateRelative: (slug, options)->
     path = Backbone.history.fragment

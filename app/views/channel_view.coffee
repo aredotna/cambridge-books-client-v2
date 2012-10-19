@@ -32,7 +32,7 @@ class exports.ChannelView extends Backbone.View
 
   openBlock: (e)->
     id = parseInt $(e.currentTarget).closest('li').attr('id')
-    app.router.navigateRelative 'show:' + id, trigger: true
+    app.router.navigateRelative 'show/' + id, trigger: true
     false
 
   makeTop: ->

@@ -38,7 +38,7 @@
       <div class="info h3">
 
         <% if @block.title: %>
-          <div class="titleWrapper h3"><a class="title permalink"><%- @block.title %></a></div>
+          <div class="titleWrapper h3"><a class="title permalink" href="#/show/<%- @block.id %>"><%- @block.title %></a></div>
         <% end %>
 
         <% if @block.description_html or @block.content_html or @block.description_html: %>
