@@ -11,7 +11,7 @@
 
 $ ->
   window.app = new Application
-	window.app.initialize
-		rootChannel : "3423"
-		baseChannel : "3733"
-	
+  window.app.initialize
+  	rootChannel : "3423"
+  	baseChannel : "3733"
+
