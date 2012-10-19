@@ -11,7 +11,7 @@ class exports.Block extends Backbone.Model
           @trigger 'loaded'
 
   connectedChannels: ->
-    slug = @collection.attributes.slug
+    slug = @collection?.attributes?.slug
     _.filter @get('connections'), (connection)=>
       slug isnt connection.slug and
       connection.published is true and 
