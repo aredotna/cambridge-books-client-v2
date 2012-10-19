@@ -10,9 +10,8 @@
 {Application} = require('Application')
 
 $ ->
-
-	window.app = new Application
+  window.app = new Application
 	window.app.initialize
-		rootChannel : "cambridge-book--2"
-		baseChannel : "cb-about-test"
+		rootChannel : "3423"
+		baseChannel : "3733"
 	
