@@ -29,7 +29,6 @@ class exports.Channel extends Backbone.Collection
       @add(blocks.contents)
       @trigger('loaded')
 
-
   _filtered: (criteria) ->
     new exports.Channel @select(criteria),
       autoload: false

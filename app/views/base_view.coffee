@@ -14,8 +14,10 @@ class exports.BaseView extends Backbone.View
     @$el.html @template()
 
     _.each @blockViews, (view)=>
+      view.model.set('in_menu', true)
       view.render()
       view.$el.appendTo(@$('#baseInner'))
+      view.$el.find('.content').appendTo(view.$el.find('li'))
 
     @$('#baseInner').masonry(itemSelector:'.blockCont', gutter: 36)
 

@@ -46,17 +46,21 @@ class exports.ChannelView extends Backbone.View
       blockLength: @blockViews.length
 
     _.each @blockViews, (view, num)=>
-      view.render()
-      if num is 0 then $(view.el).addClass 'logo'
-      @$el.find('.channelView').append view.el
+      console.log view.model.toJSON()
+      if view.model.get('content') isnt "[blank]"
+        view.render()
+        if (num is 0) and !view.$el.hasClass('menu')
+          $(view.el).addClass 'logo'
+        @$el.find('.channelView').append view.el
 
     @delegateEvents()
 
   _setChannelClass: ->
     type = ''
-    @model.each (block) ->
-      if block.get('class') is "Channel"
-        type = "menu"
+    if @model.where({"class": "Channel"}).length > 7
+      type = "menu"
+      @model.each (block) ->
+        block.set('in_menu', true)
     @channelClass = type
 
   title: ->

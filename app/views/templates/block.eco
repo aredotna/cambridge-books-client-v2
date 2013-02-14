@@ -2,10 +2,10 @@
  
 
   <li id="<%- @block.id %>" class="block <%- @block.class %>">
-    <div class="content">
+    <div class="content h3">
 
-      <% if @block.class is "Image": %>
-        <!-- IMAGE -->
+      <% if @block.class is "Image" or @block.class is "Attachment": %>
+        <!-- IMAGE  -->
         <img src="<%= @block.image?.display?.url %>" alt="<%= @block.title %>" />
 
       <% else if @block.class is 'Link': %>
@@ -21,10 +21,14 @@
 
       <% else if @block.class is 'Text': %>
         <!-- TEXT -->
+        <%- @block.content_html %>
 
       <% else if @block.class is 'Channel': %>
           <!-- CHANNEL -->
-          <a class="h3 channelLink" href="#/<%- @block.slug %>"><%- @block.title %></a>
+          <!--<a class="h3 channelLink" href="#/<%- @block.slug %>"><%- @block.title %></a>-->
+          <% unless @block.in_menu: %>
+            <div class="channel-preview-image loading" data-slug="<%- @block.slug %>"></div>
+          <% end %>
 
 
       <% else if @block.class is "Media": %>
@@ -32,23 +36,28 @@
         <%- @block.embed?.html %>
       <% end %>
 
+
     </div>
 
-    <% if @block.content_html isnt '' or @connectedChannels.length isnt 0: %>
       <div class="info h3">
-
         <% if @block.title: %>
-          <div class="titleWrapper h3"><a class="title permalink" href="#/show/<%- @block.id %>"><%- @block.title %></a></div>
+          <% if @block.class is "Channel": %>
+            <div class="titleWrapper h3"><a class="h3 channelLink" href="#/<%- @block.slug %>"><%- @block.title %></a></div>
+          <% else: %>
+            <div class="titleWrapper h3"><a class="title permalink" href="#/show/<%- @block.id %>"><%- @block.title %></a></div>
+          <% end %>
         <% end %>
 
-        <% if @block.description_html or @block.content_html or @block.description_html: %>
+        <% if @block.description_html: %>
           <div class="description">
-            <%- @block.description_html or @block.content_html or @block.description_html %>
+            <%- @block.description_html %>
           </div>
         <% end %>
 
         <% if @block.source?.url or @block.remote_source_url: %>
-          <a class="sourceLink" href="<%- @block.source?.url or @block.source?.provider?.url %>">Source</a>
+          <div class="sourceLink-container">
+            <a class="sourceLink" href="<%- @block.source?.url or @block.source?.provider?.url %>">Source</a>
+          </div>
         <% end %>
 
         <% if @connectedChannels.length isnt 0: %>
@@ -61,8 +70,6 @@
         <% end %>
 
       </div>
-    <% end %>
-    
   </li>
   
 <% end %>

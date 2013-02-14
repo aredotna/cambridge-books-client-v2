@@ -21,7 +21,22 @@ class exports.BlockView extends Backbone.View
     @$el.html @template 
       block: @model.toJSON()
       connectedChannels: @model.connectedChannels()
+    if @model.get('in_menu') && @model.get('class') is "Channel"
+      @$el.addClass('menu')
+
     @delegateEvents()
+    @loadPreview()
+
+  loadPreview: ->
+    preview = @$el.find('.channel-preview-image')
+    if preview.length
+      $.get "http://api.are.na/v2/channels/#{preview.data('slug')}/thumb.json", (data, ajax)->
+        d = data.contents
+        i = _.find d, (block)-> block.class is "Image"
+        if i
+          src = i.image.display.url
+          preview.append('<img src="' + src + '">')
+          preview.removeClass('loading')
 
   name: ->
     @model.get 'title'
